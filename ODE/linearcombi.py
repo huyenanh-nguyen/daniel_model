@@ -81,7 +81,7 @@ class LinearCoupling:
 
 # [time]
 t_step = 0.01
-t_last = 100 # 50h -> 1 point represent 1h
+t_last = 250 # 50h -> 1 point represent 1h
 t = np.arange(0, 5000, t_step)
 keep = int(t_last / t_step)
 
@@ -97,14 +97,65 @@ beta = 0.2
 alpha = 2.5
 
 lilie = LinearCoupling(par, t, k, mu, gamma, alpha, beta)
-maxi = np.argmax(lilie.q_solv()[:keep])
-print(lilie.q_solv()[:keep][maxi])
-amplitude = find_peaks(lilie.q_solv()[:keep], height=(-np.repeat(lilie.q_solv()[:keep][maxi], keep), np.repeat(lilie.q_solv()[:keep][maxi], keep)))
+xsol = lilie.x_solv()[:keep]
+ysol = lilie.y_solv()[:keep]
+psol = lilie.p_solv()[:keep]
+qsol = lilie.q_solv()[:keep]
 
-plt.plot([np.arange(0, t_last, t_step)[i] for i in amplitude[0]], amplitude[1]['peak_heights'], "x")
-plt.plot(np.arange(0, t_last, t_step), lilie.q_solv()[:keep])
-plt.plot(np.arange(0, t_last, t_step),-np.repeat(lilie.q_solv()[:keep][maxi], keep),":", color="gray")
-plt.plot(np.arange(0, t_last, t_step),np.repeat(lilie.q_solv()[:keep][maxi], keep),":", color="gray")
+x_max = np.argmax(xsol)
+x_amplitude = find_peaks(xsol, height=(-np.repeat(xsol[x_max], keep), np.repeat(xsol[x_max], keep)))
+plt.plot([np.arange(0, t_last, t_step)[i] for i in x_amplitude[0]], x_amplitude[1]['peak_heights'], "x")
+plt.plot(np.arange(0, t_last, t_step), xsol)
+plt.plot(np.arange(0, t_last, t_step),-np.repeat(xsol[x_max], keep),":", color="gray")
+plt.plot(np.arange(0, t_last, t_step),np.repeat(xsol[x_max], keep),":", color="gray")
+title = "k = "+ f"{k:.2f} $\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} x$_0$ = " + f"{par[0]:.2f} y$_0$ = "+ f"{par[1]:.2f} p$_0$ = "+ f"{par[2]:.2f} q$_0$ = "+ f"{par[3]:.2f}"
+plt.figtext(0.99, 0.01, title,
+        horizontalalignment="right",
+        fontsize = 16)
+plt.xlabel("t in h", fontsize = 20)
+plt.ylabel("x in a.u.", fontsize = 20)
+plt.show()
+
+y_max = np.argmax(ysol)
+y_amplitude = find_peaks(ysol, height=(-np.repeat(ysol[:keep][y_max], keep), np.repeat(ysol[:keep][y_max], keep)))
+plt.plot([np.arange(0, t_last, t_step)[i] for i in y_amplitude[0]], y_amplitude[1]['peak_heights'], "x")
+plt.plot(np.arange(0, t_last, t_step), ysol)
+plt.plot(np.arange(0, t_last, t_step),-np.repeat(ysol[y_max], keep),":", color="gray")
+plt.plot(np.arange(0, t_last, t_step),np.repeat(ysol[y_max], keep),":", color="gray")
+title = "k = "+ f"{k:.2f} $\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} x$_0$ = " + f"{par[0]:.2f} y$_0$ = "+ f"{par[1]:.2f} p$_0$ = "+ f"{par[2]:.2f} q$_0$ = "+ f"{par[3]:.2f}"
+plt.figtext(0.99, 0.01, title,
+        horizontalalignment="right",
+        fontsize = 16)
+plt.xlabel("t in h", fontsize = 20)
+plt.ylabel("y in a.u.", fontsize = 20)
+plt.show()
+
+p_max = np.argmax(psol)
+p_amplitude = find_peaks(psol, height=(-np.repeat(psol[p_max], keep), np.repeat(psol[p_max], keep)))
+plt.plot([np.arange(0, t_last, t_step)[i] for i in p_amplitude[0]], p_amplitude[1]['peak_heights'], "x")
+plt.plot(np.arange(0, t_last, t_step), psol)
+plt.plot(np.arange(0, t_last, t_step),-np.repeat(psol[p_max], keep),":", color="gray")
+plt.plot(np.arange(0, t_last, t_step),np.repeat(psol[p_max], keep),":", color="gray")
+title = "k = "+ f"{k:.2f} $\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} x$_0$ = " + f"{par[0]:.2f} y$_0$ = "+ f"{par[1]:.2f} p$_0$ = "+ f"{par[2]:.2f} q$_0$ = "+ f"{par[3]:.2f}"
+plt.figtext(0.99, 0.01, title,
+        horizontalalignment="right",
+        fontsize = 16)
+plt.xlabel("t in h", fontsize = 20)
+plt.ylabel("p in a.u.", fontsize = 20)
+plt.show()
+
+q_max = np.argmax(qsol)
+q_amplitude = find_peaks(qsol, height=(-np.repeat(qsol[q_max], keep), np.repeat(qsol[q_max], keep)))
+plt.plot([np.arange(0, t_last, t_step)[i] for i in q_amplitude[0]], q_amplitude[1]['peak_heights'], "x")
+plt.plot(np.arange(0, t_last, t_step), qsol)
+plt.plot(np.arange(0, t_last, t_step),-np.repeat(qsol[q_max], keep),":", color="gray")
+plt.plot(np.arange(0, t_last, t_step),np.repeat(qsol[q_max], keep),":", color="gray")
+title = "k = "+ f"{k:.2f} $\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} x$_0$ = " + f"{par[0]:.2f} y$_0$ = "+ f"{par[1]:.2f} p$_0$ = "+ f"{par[2]:.2f} q$_0$ = "+ f"{par[3]:.2f}"
+plt.figtext(0.99, 0.01, title,
+        horizontalalignment="right",
+        fontsize = 16)
+plt.xlabel("t in h", fontsize = 20)
+plt.ylabel("q in a.u.", fontsize = 20)
 plt.show()
 
 # [plotting values against time]_________________________________________________________________________________________________________________________
