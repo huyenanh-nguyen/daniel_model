@@ -269,7 +269,7 @@ class LinearCoupling:
 # [time]
 t_step = 0.01
 t_last = 250 # 50h -> 1 point represent 1h
-t = np.arange(0, 5000, t_step)
+t = np.arange(3000, 5000, t_step)
 keep = int(t_last / t_step)
 
 # x_max(last 250 timepoints, k = 0) : np.int64(8550), np.int64(102), np.int64(15952), np.int64(1)
@@ -279,39 +279,24 @@ y = 1
 q = 1
 p = 1
 par = x,y,p,q
-k = 0
+k = [0, 1, 2.5, 5, 10]
 gamma = 0.1
 mu = 0.1
 beta = 0.2
 alpha = 2.5
 
-lilie = LinearCoupling(par, t, keep, k, mu, gamma, alpha, beta)
-xsol = lilie.x_solv()[:keep]
-ysol = lilie.y_solv()[:keep]
-psol = lilie.p_solv()[:keep]
-qsol = lilie.q_solv()[:keep]
+index = 3 # 0 = x, 1 = y, 2 = p, 3 = q
 
-peaks = lilie.find_peaks_max()
-
-x_max = np.argmax(xsol)
-x_amplitude = find_peaks(xsol, height=(-np.repeat(xsol[x_max], keep), np.repeat(xsol[x_max], keep)))
-x_t_peaks = [np.arange(0, t_last, t_step)[i] for i in x_amplitude[0]]
-
-y_max = np.argmax(ysol)
-y_amplitude = find_peaks(ysol, height=(-np.repeat(ysol[:keep][y_max], keep), np.repeat(ysol[:keep][y_max], keep)))
-y_t_peaks = [np.arange(0, t_last, t_step)[i] for i in y_amplitude[0]]
-
-p_max = np.argmax(psol)
-p_amplitude = find_peaks(psol, height=(-np.repeat(psol[p_max], keep), np.repeat(psol[p_max], keep)))
-p_t_peaks = [np.arange(0, t_last, t_step)[i] for i in p_amplitude[0]]
-
-q_max = np.argmax(qsol)
-q_amplitude = find_peaks(qsol, height=(-np.repeat(qsol[q_max], keep), np.repeat(qsol[q_max], keep)))
-q_t_peaks = [np.arange(0, t_last, t_step)[i] for i in q_amplitude[0]]
-
-period = lilie.period()
-
-
+for i in range(len(k)):
+    lilie = LinearCoupling(par, t, keep, k[i], mu, gamma, alpha, beta)
+    period = lilie.period()
+    frequency = lilie.frequence()
+    omega = lilie.omegachen()
+    print("amplitude", [f"{np.mean(lilie.find_peaks_max()[k][1]['peak_heights']):.2f}" for k in range(4)])
+    # print("k", f"{k[i]:.2f}")
+    # print("period", f"{period[index]:.2f}")
+    # print("frequency", f"{frequency[index]:.2f}")
+    # print("omega", f"{omega[index]:.2f}")
 
 
 # [plotting values against time]_________________________________________________________________________________________________________________________
