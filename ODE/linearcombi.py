@@ -12,7 +12,7 @@ def linearduffingvdp(par, t, k, mu, gamma, alpha, beta):
     dx = p
     dy = q
     dp = mu * (1-x**2)*p - x + k * (y-x)
-    dq = gamma * q - alpha * y - beta * y**3 + k * (x-y)
+    dq = - gamma * q - alpha * y - beta * y**3 + k * (x-y)
 
     return [dx,dy,dp,dq]
 
@@ -236,61 +236,61 @@ keep = int(t_last / t_step)
 
 # [kchanges]__________________________
 
-# x = 1
-# y = 1
-# q = 1
-# p = 1
-# par = x,y,p,q
-# k = [0]
-# gamma = 0.1
-# mu = 0.1
-# beta = 0.2
-# alpha = 2.5
-# x_sol = [LinearCoupling(par, t, i, mu, gamma, alpha, beta).x_solv() for i in k]
-# y_sol = [LinearCoupling(par, t, i, mu, gamma, alpha, beta).y_solv() for i in k]
-# p_sol = [LinearCoupling(par, t, i, mu, gamma, alpha, beta).p_solv() for i in k]
-# q_sol = [LinearCoupling(par, t, i, mu, gamma, alpha, beta).q_solv() for i in k]
+x = 1
+y = 1
+q = 1
+p = 1
+par = x,y,p,q
+k = [0]
+gamma = 0.1
+mu = 0.1
+beta = 0.2
+alpha = 2.5
+x_sol = [LinearCoupling(par, t, i, mu, gamma, alpha, beta).x_solv() for i in k]
+y_sol = [LinearCoupling(par, t, i, mu, gamma, alpha, beta).y_solv() for i in k]
+p_sol = [LinearCoupling(par, t, i, mu, gamma, alpha, beta).p_solv() for i in k]
+q_sol = [LinearCoupling(par, t, i, mu, gamma, alpha, beta).q_solv() for i in k]
 
-# for i in range(len(k)):
-#     plt.plot(np.arange(0, t_last, t_step), x_sol[i][:keep], label = f"k: {k[i]:.2f}")
-# plt.ylabel("x in a.u.", fontsize = 20)
-# title = "$\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} x$_0$ = " + f"{par[0]:.2f} y$_0$ = "+ f"{par[1]:.2f} p$_0$ = "+ f"{par[2]:.2f} q$_0$ = "+ f"{par[3]:.2f}"
-# plt.legend(fontsize = 20, loc = "upper right")
-# plt.xlabel("t in ms", fontsize = 20)
-# plt.figtext(0.99, 0.01, title,
-#         horizontalalignment="right",
-#         fontsize = 16)
-# plt.show()
-# for i in range(len(k)):
-#     plt.plot(np.arange(0, t_last, t_step), y_sol[i][:keep], label = f"k: {k[i]:.2f}")
-# plt.ylabel("y in a.u.", fontsize = 20)
-# title = "$\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} x$_0$ = " + f"{par[0]:.2f} y$_0$ = "+ f"{par[1]:.2f} p$_0$ = "+ f"{par[2]:.2f} q$_0$ = "+ f"{par[3]:.2f}"
-# plt.legend(fontsize = 20, loc = "upper left")
-# plt.xlabel("t in ms", fontsize = 20)
-# plt.figtext(0.99, 0.01, title,
-#         horizontalalignment="right",
-#         fontsize = 16)
-# plt.show()
-# for i in range(len(k)):
-#     plt.plot(np.arange(0, t_last, t_step), p_sol[i][:keep], label = f"k: {k[i]:.2f}")
-# plt.ylabel("p in a.u.", fontsize = 20)
-# title = "$\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} x$_0$ = " + f"{par[0]:.2f} y$_0$ = "+ f"{par[1]:.2f} p$_0$ = "+ f"{par[2]:.2f} q$_0$ = "+ f"{par[3]:.2f}"
-# plt.legend(fontsize = 20, loc = "upper right")
-# plt.xlabel("t in ms", fontsize = 20)
-# plt.figtext(0.99, 0.01, title,
-#         horizontalalignment="right",
-#         fontsize = 16)
-# plt.show()
-# for i in range(len(k)):
-#     plt.plot(np.arange(0, t_last, t_step), q_sol[i][:keep], label = f"k: {k[i]:.2f}")
-# plt.ylabel("q in a.u.", fontsize = 20)
-# title = "$\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} x$_0$ = " + f"{par[0]:.2f} y$_0$ = "+ f"{par[1]:.2f} p$_0$ = "+ f"{par[2]:.2f} q$_0$ = "+ f"{par[3]:.2f}"
-# plt.legend(fontsize = 20, loc = "upper left")
-# plt.xlabel("t in ms", fontsize = 20)
-# plt.figtext(0.99, 0.01, title,
-#         horizontalalignment="right",
-#         fontsize = 16)
-# plt.show()
+for i in range(len(k)):
+    plt.plot(np.arange(0, t_last, t_step), x_sol[i][:keep], label = f"k: {k[i]:.2f}")
+plt.ylabel("x in a.u.", fontsize = 20)
+title = "$\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} x$_0$ = " + f"{par[0]:.2f} y$_0$ = "+ f"{par[1]:.2f} p$_0$ = "+ f"{par[2]:.2f} q$_0$ = "+ f"{par[3]:.2f}"
+plt.legend(fontsize = 20, loc = "upper right")
+plt.xlabel("t in ms", fontsize = 20)
+plt.figtext(0.99, 0.01, title,
+        horizontalalignment="right",
+        fontsize = 16)
+plt.show()
+for i in range(len(k)):
+    plt.plot(np.arange(0, t_last, t_step), y_sol[i][:keep], label = f"k: {k[i]:.2f}")
+plt.ylabel("y in a.u.", fontsize = 20)
+title = "$\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} x$_0$ = " + f"{par[0]:.2f} y$_0$ = "+ f"{par[1]:.2f} p$_0$ = "+ f"{par[2]:.2f} q$_0$ = "+ f"{par[3]:.2f}"
+plt.legend(fontsize = 20, loc = "upper left")
+plt.xlabel("t in ms", fontsize = 20)
+plt.figtext(0.99, 0.01, title,
+        horizontalalignment="right",
+        fontsize = 16)
+plt.show()
+for i in range(len(k)):
+    plt.plot(np.arange(0, t_last, t_step), p_sol[i][:keep], label = f"k: {k[i]:.2f}")
+plt.ylabel("p in a.u.", fontsize = 20)
+title = "$\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} x$_0$ = " + f"{par[0]:.2f} y$_0$ = "+ f"{par[1]:.2f} p$_0$ = "+ f"{par[2]:.2f} q$_0$ = "+ f"{par[3]:.2f}"
+plt.legend(fontsize = 20, loc = "upper right")
+plt.xlabel("t in ms", fontsize = 20)
+plt.figtext(0.99, 0.01, title,
+        horizontalalignment="right",
+        fontsize = 16)
+plt.show()
+for i in range(len(k)):
+    plt.plot(np.arange(0, t_last, t_step), q_sol[i][:keep], label = f"k: {k[i]:.2f}")
+plt.ylabel("q in a.u.", fontsize = 20)
+title = "$\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} x$_0$ = " + f"{par[0]:.2f} y$_0$ = "+ f"{par[1]:.2f} p$_0$ = "+ f"{par[2]:.2f} q$_0$ = "+ f"{par[3]:.2f}"
+plt.legend(fontsize = 20, loc = "upper left")
+plt.xlabel("t in ms", fontsize = 20)
+plt.figtext(0.99, 0.01, title,
+        horizontalalignment="right",
+        fontsize = 16)
+plt.show()
 
 # [plotting Phasespace]_______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
