@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from scipy.integrate import odeint
 from scipy.signal import argrelmax
 from scipy.signal import find_peaks
+from scipy.fft import fft, fftfreq, fftshift
 
 def linearduffingvdp(par, t, k, mu, gamma, alpha, beta):
     x,y,p,q = par
@@ -392,6 +393,32 @@ class LinearCoupling:
 # plt.figtext(0.99, 0.01, title,
 #         horizontalalignment="right",
 #         fontsize = 16)
+# plt.show()
+
+# [Fourier Transformation] _______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+# t_step = 0.01
+# t_last = 250 # 50h -> 1 point represent 1h
+# t = np.arange(0, 5000, t_step)
+# keep = int(t_last / t_step)
+
+# x = 1
+# y = 1
+# q = 1
+# p = 1
+# par = x,y,p,q
+# k = [0]
+# gamma = 0.1
+# mu = 0.1
+# beta = 0.2
+# alpha = 2.5
+# x_sol = [LinearCoupling(par, t, keep, i, mu, gamma, alpha, beta).x_solv() for i in k]
+# y_sol = [LinearCoupling(par, t, keep, i, mu, gamma, alpha, beta).y_solv() for i in k]
+# p_sol = [LinearCoupling(par, t, keep, i, mu, gamma, alpha, beta).p_solv() for i in k]
+# q_sol = [LinearCoupling(par, t, keep, i, mu, gamma, alpha, beta).q_solv() for i in k]
+
+# x_fft = fft(x_sol)
+
+# plt.plot(t, x_fft[0])
 # plt.show()
 
 # [plotting Phasespace]_______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________

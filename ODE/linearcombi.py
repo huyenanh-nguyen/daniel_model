@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from scipy.integrate import odeint
 from scipy.signal import argrelmax
 from scipy.signal import find_peaks
+from scipy.fft import fft
 
 def linearduffingvdp(par, t, k, mu, gamma, alpha, beta):
     x,y,p,q = par
@@ -267,32 +268,32 @@ class LinearCoupling:
 
 # [find omega, period]_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 # [time]
-t_step = 0.01
-t_last = 250 # 50h -> 1 point represent 1h
-t = np.arange(3000, 5000, t_step)
-keep = int(t_last / t_step)
+# t_step = 0.01
+# t_last = 250 # 50h -> 1 point represent 1h
+# t = np.arange(3000, 5000, t_step)
+# keep = int(t_last / t_step)
 
-# x_max(last 250 timepoints, k = 0) : np.int64(8550), np.int64(102), np.int64(15952), np.int64(1)
+# # x_max(last 250 timepoints, k = 0) : np.int64(8550), np.int64(102), np.int64(15952), np.int64(1)
 
-x = 1
-y = 1
-q = 1
-p = 1
-par = x,y,p,q
-k = [0, 1, 2.5, 5, 10]
-gamma = 0.1
-mu = 0.1
-beta = 0.2
-alpha = 2.5
+# x = 1
+# y = 1
+# q = 1
+# p = 1
+# par = x,y,p,q
+# k = [0, 1, 2.5, 5, 10]
+# gamma = 0.1
+# mu = 0.1
+# beta = 0.2
+# alpha = 2.5
 
-index = 3 # 0 = x, 1 = y, 2 = p, 3 = q
+# index = 3 # 0 = x, 1 = y, 2 = p, 3 = q
 
-for i in range(len(k)):
-    lilie = LinearCoupling(par, t, keep, k[i], mu, gamma, alpha, beta)
-    period = lilie.period()
-    frequency = lilie.frequence()
-    omega = lilie.omegachen()
-    print("amplitude", [f"{np.mean(lilie.find_peaks_max()[k][1]['peak_heights']):.2f}" for k in range(4)])
+# for i in range(len(k)):
+#     lilie = LinearCoupling(par, t, keep, k[i], mu, gamma, alpha, beta)
+#     period = lilie.period()
+#     frequency = lilie.frequence()
+#     omega = lilie.omegachen()
+#     print("amplitude", [f"{np.mean(lilie.find_peaks_max()[k][1]['peak_heights']):.2f}" for k in range(4)])
     # print("k", f"{k[i]:.2f}")
     # print("period", f"{period[index]:.2f}")
     # print("frequency", f"{frequency[index]:.2f}")
@@ -392,6 +393,32 @@ for i in range(len(k)):
 # plt.figtext(0.99, 0.01, title,
 #         horizontalalignment="right",
 #         fontsize = 16)
+# plt.show()
+
+# [Fourier Transformation] _______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+# t_step = 0.01
+# t_last = 250 # 50h -> 1 point represent 1h
+# t = np.arange(0, 5000, t_step)
+# keep = int(t_last / t_step)
+
+# x = 1
+# y = 1
+# q = 1
+# p = 1
+# par = x,y,p,q
+# k = [5]
+# gamma = 0.1
+# mu = 0.1
+# beta = 0.2
+# alpha = 2.5
+# x_sol = [LinearCoupling(par, t, keep, i, mu, gamma, alpha, beta).x_solv() for i in k]
+# y_sol = [LinearCoupling(par, t, keep, i, mu, gamma, alpha, beta).y_solv() for i in k]
+# p_sol = [LinearCoupling(par, t, keep, i, mu, gamma, alpha, beta).p_solv() for i in k]
+# q_sol = [LinearCoupling(par, t, keep, i, mu, gamma, alpha, beta).q_solv() for i in k]
+
+# x_fft = fft(q_sol)
+
+# plt.plot(t[:keep], x_fft[0][:keep])
 # plt.show()
 
 # [plotting Phasespace]_______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
