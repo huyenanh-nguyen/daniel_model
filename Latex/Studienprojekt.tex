@@ -111,16 +111,16 @@
 		The two oscillators will be described in the following sections as uncoupled, non-driven, autonomous oscillators.
 		
 		\section{Duffing-Oscillator}
-		Wenn man einem linearen 2. Ordnung des mass-spring harmonic Oscillators-Ordinary Differential Equation (Abberation: ODE) einem nicht-linearen Term $\alpha y +\beta y^3$ hinzufügt, erhält man den Duffing-Oszillator\cite{twist_paper} ein nichtlineares System.
+		If a nonlinear term $\alpha y + \beta y^3$ is added to the linear second-order mass-spring harmonic oscillator ordinary differential equation (abbreviation: ODE), the Duffing oscillator\cite{twist_paper}, a nonlinear system, is obtained.
 		
 		\begin{equation}\label{eq: duffing_ungetrieben}
 			\frac{d^2y}{dt^2} + \gamma \frac{dy}{dt} + \alpha y + \beta y^3 = 0
 		\end{equation}
-		Die folgenden Parameter der Gleichung \ref{eq: duffing_ungetrieben} sind in Table \ref{tab: duffing_ungetriebene_parameter} beschrieben und Werte ausgewählt. 
+		The meaning of the following parameters of Equation \ref{eq: duffing_ungetrieben} are described in Table \ref{tab: duffing_ungetriebene_parameter}. The choosen values for each parameters for this simulation are also displayed in the Table \ref{tab: duffing_ungetriebene_parameter}.
 		
 			\begin{table}[H]
 			\centering
-			\caption{The meaning of the Duffing Parameter and choosen values for them without units.}
+			\caption{The meaning of the Duffing Parameter and choosen values for them without units for the simulation.}
 			\label{tab: duffing_ungetriebene_parameter}
 			\begin{tabular}{c c c}
 				\toprule
@@ -133,19 +133,19 @@
 			\end{tabular}
 		\end{table}
 		
-		In der Table \ref{tab: duffing_ungetriebene_parameter} wurden für $\beta$ > 0 den Wert nach Parlitz ausgewählt, somit besitzt das System hohe nicht-lineare Rückstellkraft und verhält sich weniger chaotisch und in den Ruhelage zurückkehrt. Für die anderen Parameter wurde für $\gamma$ < 1 gewählt, damit das System eine schwache Dämpfung widerfährt und für $\alpha$ < 1 nur eine kleine lineare Rückstellkraft hat, damit das System locker bleibt.
+		In Table \ref{tab: duffing_ungetriebene_parameter}, the value for $\beta$ > 0 was selected according to Parlitz \cite{Parlitz_p93}, giving the system high nonlinear restoring force, behaving less chaotically, and returning to equilibrium. \\
+		To ensure weak damping the parameter $\gamma$ was set to 0.1. $\alpha$ = 0.1 was selected to provide only a small linear restoring force, keeping the system flexible.
 		
 		
 		\begin{figure}[H]
 			\centering
 			\includegraphics[scale=0.4]{duffing_unforced_y.png}
-			\caption{Time curve of an unforced Duffing Oscillator with the parameter $\gamma$ = 0.1, $\alpha$ = 0.1 and $\beta$ = 0.2. The giving Startingpoint for this simulation is (y,p) = (1, 1) for t = [0,250] ms.}
+			\caption{Time series of an non-driven autonomous Duffing oscillator with the parameter $\gamma$ = 0.1, $\alpha$ = 0.1 and $\beta$ = 0.2. The resulting plot is giving by numerically integrated starting from (y,p) = (1, 1) at t = 0 ms to t = 250 ms.}
 			\label{fig: duffing_unforced_y}
 		\end{figure}
 		
-		WIe man in Figure \ref{fig: duffing_unforced_y} sehen kann, kehrt das System schnell in seiner Ruhelage wieder zurück.
-		
-		\cite{Nonlinear_Dynamic_and_chaos_book}
+		When the Duffing oscillator is run with the given parameters, it can be observed that due to the nonlinear restoring force, the system quickly oscillates back to its equilibrium state (see Figure \ref{fig: duffing_unforced_y}).
+	
 	
 		\section{Van der Pol - Oscillator}
 		Auch der Van der Pol - Oscillator ist ein nonlinear System, wo ein harmonischen Oscillator ein nichtlinearen damping term $\mu$(x$^2$ - 1)$\dot{x}$ hinzugefügt wurde (siehe Gleichung \ref{eq: unforced_vdp}).
