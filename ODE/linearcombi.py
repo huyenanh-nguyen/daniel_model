@@ -491,34 +491,33 @@ class LinearCoupling:
 
 
 # [resonanc curve]________________________________________________________________________________________________________________________________________________________________
-t_step = 0.01
-t_last = 250 # 50h -> 1 point represent 1h
-t = np.arange(0, 5000, t_step)
-keep = int(t_last / t_step)
+# t_step = 0.01
+# t_last = 250 # 50h -> 1 point represent 1h
+# t = np.arange(0, 5000, t_step)
+# keep = int(t_last / t_step)
 
-x = 0.5
-y = 1
-q = 0
-p = 1
-par = x,y,p,q
-k = 1
-gamma = 0.1
-mu = 0.1
-beta = 0.2
-alpha = np.arange(0, 5, 0.01)
-amp = [np.mean(LinearCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][1]['peak_heights'][-keep:]) for i in alpha]
+# x = 0.5
+# y = 1
+# q = 0
+# p = 1
+# par = x,y,p,q
+# k = 0
+# gamma = 0.1
+# mu = 0.1
+# beta = 0.2
+# alpha = np.arange(0, 5, 0.01)
+# amp = [np.mean(LinearCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][1]['peak_heights'][-keep:]) for i in alpha]
 
-omega = [np.sqrt(i) for i in alpha]
-plt.plot(omega, amp)
-title = "k = " + f"{k:.2f}, $\gamma$ = " + f"{gamma:.2f}, $\mu$ = " + f"{mu:.2f}, ß =" + f"{beta:.2f}, $\\alpha$ = (" + f"{alpha[0]:.2f} - " + f"{alpha[-1]:.2f}), x$_0$ = " + f"{par[0]:.2f}, y$_0$ = "+ f"{par[1]:.2f}, p$_0$ = "+ f"{par[2]:.2f}, q$_0$ = "+ f"{par[3]:.2f}"
+# omega = [np.sqrt(i) for i in alpha]
+# plt.plot(omega, amp)
+# title = "k = " + f"{k:.2f}, $\gamma$ = " + f"{gamma:.2f}, $\mu$ = " + f"{mu:.2f}, ß =" + f"{beta:.2f}, $\\alpha$ = (" + f"{alpha[0]:.2f} - " + f"{alpha[-1]:.2f}), x$_0$ = " + f"{par[0]:.2f}, y$_0$ = "+ f"{par[1]:.2f}, p$_0$ = "+ f"{par[2]:.2f}, q$_0$ = "+ f"{par[3]:.2f}"
 
-plt.legend()
-plt.xlabel("$\omega _0$ in ms")
-plt.ylabel("A in cm")
-plt.figtext(0.99, 0.01, title,
-        horizontalalignment="right",
-        fontsize = 16)
-plt.show()
+# plt.xlabel("$\omega _0$ in ms", fontsize = 30)
+# plt.ylabel("A in cm",fontsize = 30)
+# plt.figtext(0.99, 0.01, title,
+#         horizontalalignment="right",
+#         fontsize = 20)
+# plt.show()
 
 
 
