@@ -157,7 +157,6 @@ class LinearCoupling:
         sol = self.duffvdpsolver()
         index_peaks = [self.find_peaks_max()[i][0] for i in range(len(self.find_peaks_max()))]
 
-
         period = []
 
         for i in range(sol.shape[1]):
@@ -193,6 +192,13 @@ class LinearCoupling:
         omega = [(2 * np.pi )/ period[i] for i in range(len(period))]
 
         return omega
+    
+    def phaseshift(self):
+        x_period = self.period()[0] # driven force
+        y_period = self.period()[1] # driven oscillator
+        keep = self.t_keep
+
+        return (x_period - y_period)/10 * 2 * np.pi * ((keep - 1)/ y_period)
 
     
 
@@ -201,6 +207,34 @@ class LinearCoupling:
 
 # resonazphänomene (ist der Ausblick was passiert wenn duffing 70 hz und vdp bei 140 hz schwingt)
 
+# [phaseshift_omegaplot]______________________________________________________________________________________________________
+t_step = 0.01
+t_last = 250 # 50h -> 1 point represent 1h
+t = np.arange(0, 5000, t_step)
+keep = int(t_last / t_step)
+
+x = 0.5
+y = 1
+q = 0
+p = 1
+par = x,y,p,q
+k = 0.01
+gamma = 0.1
+mu = 2.0
+beta = 0.2
+alpha = np.arange(0, 5, 0.01)
+phase = [LinearCoupling(par, t, keep, k, mu, gamma, i, beta).phaseshift() for i in alpha]
+print(phase)
+omega = [np.sqrt(i) for i in alpha]
+plt.plot(omega, phase)
+title = "k = " + f"{k:.2f}, $\gamma$ = " + f"{gamma:.2f}, $\mu$ = " + f"{mu:.2f}, ß =" + f"{beta:.2f}, $\\alpha$ = (" + f"{alpha[0]:.2f} - " + f"{alpha[-1]:.2f}), x$_0$ = " + f"{par[0]:.2f}, y$_0$ = "+ f"{par[1]:.2f}, p$_0$ = "+ f"{par[2]:.2f}, q$_0$ = "+ f"{par[3]:.2f}"
+
+plt.xlabel("$\omega _0$", fontsize = 30)
+plt.ylabel("Phase",fontsize = 30)
+plt.figtext(0.99, 0.01, title,
+        horizontalalignment="right",
+        fontsize = 20)
+plt.show()
 
 # [find peaks]____________________________________________________________________________________________________________________________________________________________________________________________________________
 # [time]
