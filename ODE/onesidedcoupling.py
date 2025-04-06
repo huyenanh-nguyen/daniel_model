@@ -137,6 +137,7 @@ class OnesidedCoupling:
     def maximumofplot(self):
         """
         return the maximum value of the plot
+        np.argmax(xsol) for the maxima of the x-solution
 
         Returns:
            List: index 0 -> x, Index 1 -> y, Index 2 -> p(vdp), Index 3 -> q(duffing)
@@ -145,7 +146,7 @@ class OnesidedCoupling:
         sol = self.duffvdpsolver()
         keep = self.t_keep
 
-        maxima = [np.argmax(sol[:, i]) for i in range(sol.shape[1])]
+        maxima = [np.argmax(sol[:keep, i]) for i in range(len(self.par))]
         
         return maxima
     
@@ -159,7 +160,7 @@ class OnesidedCoupling:
 
         sol = self.duffvdpsolver()
         keep = self.t_keep
-        maxima = [np.mean(np.argmin(sol[-keep:, i])) for i in range(sol.shape[1])]
+        maxima = [np.mean(np.argmin(sol[:keep, i])) for i in range(sol.shape[1])]
         
         return maxima
     
@@ -181,14 +182,26 @@ class OnesidedCoupling:
 
             second index is for accessing the peak height (aka amplitude).
 
-            If i just want to know the index where to find the index, i will type:
-            peaks[0][0]
+            peak[i][0] will return the Index where the peaks are
         """
         sol = self.duffvdpsolver()
         maxima = self.maximumofplot()
         keep = self.t_keep
 
-        peaks = [find_peaks(sol[:,i], height=(-np.repeat(sol[:,i][maxima[i]], len(sol[:,i])), np.repeat(sol[:,i][maxima[i]], len(sol[:,i])))) for i in range(len(maxima))]
+        peaks = [find_peaks(sol[:keep,i], height=(-np.repeat(sol[:keep,i][maxima[i]], keep), np.repeat(sol[:keep,i][maxima[i]], keep))) for i in range(len(maxima))]
          
         return peaks
     
+    def quadraticinterpolationofpeaks(self):
+        t = self.t
+        sol = self.duffvdpsolver()
+        keep = self.t_keep
+        peaks = self.find_peaks_max()
+
+        t_plusminuspeak = [[(t[i-1],t[i],t[i+1]) for i in peaks[u][0]] for u in range(len(self.par))]
+        sol_plusminuspeak = [[(sol[i-1,u],sol[i, u],sol[i+1, u]) for i in peaks[u][0]] for u in range(len(self.par))]
+
+        return t_plusminuspeak, sol_plusminuspeak
+
+
+
