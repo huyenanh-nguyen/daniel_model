@@ -192,7 +192,18 @@ class OnesidedCoupling:
          
         return peaks
     
-    def quadraticinterpolationofpeaks(self):
+    def peak_plusminus(self):
+        """
+        x-values are the time, where the peak is plus 1 and minus 1
+        y-values are the fitting solutions to the timepoints
+
+        Returns:
+            List: two Indexes with n length of arrays -> depending on how many Peaks i have 
+                  self.quadraticinterpolationofpeaks()
+                  >>> [(t[i-1],t[i],t[i+1]), ...][(sol[i-1,u],sol[i, u],sol[i+1, u]), ...]
+                      Index 0 -> time (and each for x,y,p,q)
+                      Index 1 -> Solution (and each for x,y,p,q)
+        """
         t = self.t
         sol = self.duffvdpsolver()
         keep = self.t_keep
@@ -202,6 +213,36 @@ class OnesidedCoupling:
         sol_plusminuspeak = [[(sol[i-1,u],sol[i, u],sol[i+1, u]) for i in peaks[u][0]] for u in range(len(self.par))]
 
         return t_plusminuspeak, sol_plusminuspeak
+    
+
+    def square_interpolation(self):
+        t = self.peak_plusminus()[0]
+        sol = self.peak_plusminus()[1]
+
+        popt_sol = []
+        y_value_peak = [] # interpolated y value where the peak is
+        x_value_peak = []
+        for i in range(len(self.par)):
+            popt_inbetween = []
+            y_peak_inbetween = []
+            x_peak_inbetween = []
+            for u in range(len(t[i])):
+                popt, pcov = curve_fit(quadraticinterpolation, t[i][u], sol[i][u])
+                max_interpolation = (- popt[1]) / (2 * popt[0])
+                yuing = quadraticinterpolation(max_interpolation, popt[0], popt[1], popt[2])
+                popt_inbetween.append(popt)
+                y_peak_inbetween.append(yuing)
+                x_peak_inbetween.append(max_interpolation)
+            popt_sol.append(popt_inbetween)
+            y_value_peak.append(y_peak_inbetween)
+            x_value_peak.append(x_peak_inbetween)
+        
+        return y_value_peak, x_value_peak, popt_sol
+        
+
+
+    
+
 
 
 
