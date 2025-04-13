@@ -188,8 +188,9 @@ class OnesidedCoupling:
         maxima = self.maximumofplot()
         keep = self.t_keep
 
-        peaks = [find_peaks(sol[:keep,i], height=(-np.repeat(sol[:keep,i][maxima[i]], keep), np.repeat(sol[:keep,i][maxima[i]], keep))) for i in range(len(maxima))]
-         
+        peaks = []
+        for i in range(len(maxima)):
+            peaks.append(find_peaks(sol[:keep,i], height=(-np.repeat(sol[:keep,i][maxima[i]], keep), np.repeat(sol[:keep,i][maxima[i]], keep))))
         return peaks
     
     def peak_plusminus(self):
