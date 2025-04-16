@@ -29,6 +29,10 @@ ysol = lilie.y_solv()[:keep]
 psol = lilie.p_solv()[:keep]
 qsol = lilie.q_solv()[:keep]
 
+# rtol = 0.01
+xsol_tol = lilie.duffvdpsolver_tolerance()[:keep, 0]
+ysol_tol = lilie.duffvdpsolver_tolerance()[:keep, 1]
+
 # [Timeseries]_________________________________________________________________________________________________________________________________
 
 xmax = lilie.maximumofplot()[0]
@@ -38,6 +42,7 @@ y_amplitude = lilie.find_peaks_max()[1]
 
 # x-timeseries
 plt.plot(np.arange(0, t_last, t_step), xsol, label = f"k: {k:.2f}")
+plt.plot(np.arange(0, t_last, t_step), xsol_tol, label = "rtol= 0.01")
 plt.plot([np.arange(0, t_last, t_step)[i] for i in x_amplitude[0]], x_amplitude[1]['peak_heights'], "x", label = "interpolated")
 # plt.plot([np.arange(0, t_last, t_step)[i] for i in x_amplitude[0]], x_amplitude[1]['peak_heights'], "x", label = "max peak")
 
@@ -106,59 +111,59 @@ plt.show()
 
 # [Phasetime]____________________________________________________________________________________________________________________________________________________________________________________________________________-
 
-label = f"x$_0$ = {par[0]:.2f} \np$_0$ = {par[2]:.2f}"
-plt.plot(xsol,psol,label = label)
-plt.xlabel("x in a.u.",fontsize = 30)
-plt.ylabel("p in a.u.",fontsize = 30)
-# title = "$\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} k = " + f"{k:.2f}"
-plt.legend(fontsize = 16)
-plt.title("Phasenportraits X,P")
-# plt.figtext(0.99, 0.01, title,
-#         horizontalalignment="right",
-#         fontsize = 20)
-plt.show()
+# label = f"x$_0$ = {par[0]:.2f} \np$_0$ = {par[2]:.2f}"
+# plt.plot(xsol,psol,label = label)
+# plt.xlabel("x in a.u.",fontsize = 30)
+# plt.ylabel("p in a.u.",fontsize = 30)
+# # title = "$\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} k = " + f"{k:.2f}"
+# plt.legend(fontsize = 16)
+# plt.title("Phasenportraits X,P")
+# # plt.figtext(0.99, 0.01, title,
+# #         horizontalalignment="right",
+# #         fontsize = 20)
+# plt.show()
 
-label = f"y$_0$ = {par[1]:.2f} \nq$_0$ = {par[3]:.2f}"
-plt.plot(ysol,qsol,label = label)
-plt.xlabel("y in a.u.",fontsize = 30)
-plt.ylabel("q in a.u.",fontsize = 30)
-# title = "$\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} k = " + f"{k:.2f}"
-plt.legend(fontsize = 16)
-plt.title("Phasenportraits X,P")
-# plt.figtext(0.99, 0.01, title,
-#         horizontalalignment="right",
-#         fontsize = 20)
-plt.show()
+# label = f"y$_0$ = {par[1]:.2f} \nq$_0$ = {par[3]:.2f}"
+# plt.plot(ysol,qsol,label = label)
+# plt.xlabel("y in a.u.",fontsize = 30)
+# plt.ylabel("q in a.u.",fontsize = 30)
+# # title = "$\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} k = " + f"{k:.2f}"
+# plt.legend(fontsize = 16)
+# plt.title("Phasenportraits X,P")
+# # plt.figtext(0.99, 0.01, title,
+# #         horizontalalignment="right",
+# #         fontsize = 20)
+# plt.show()
 
-# [Resonance Curve]___________________________________________________________________________________________________________________________________________________________________________________-
+# # [Resonance Curve]___________________________________________________________________________________________________________________________________________________________________________________-
 
-# interpolated peaks
-reso_alpha = np.arange(0, 5, 0.1)
-amp = []
-for i in reso_alpha:
-    try:
-        interpolated = OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).square_interpolation()[0][1]
-        mean = np.mean(interpolated)
-        amp.append(mean)
-    except:
-        print("hm")
+# # interpolated peaks
+# reso_alpha = np.arange(0, 5, 0.1)
+# amp = []
+# for i in reso_alpha:
+#     try:
+#         interpolated = OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).square_interpolation()[0][1]
+#         mean = np.mean(interpolated)
+#         amp.append(mean)
+#     except:
+#         print("hm")
 
-revers_amp = []
-for u in reversed(reso_alpha):
-    try:
-        interpolated = OnesidedCoupling(par, t, keep, k, mu, gamma, u, beta).square_interpolation()[0][1]
-        mean = np.mean(interpolated)
-        revers_amp.append(mean)
-    except:
-        print("hm")
+# revers_amp = []
+# for u in reversed(reso_alpha):
+#     try:
+#         interpolated = OnesidedCoupling(par, t, keep, k, mu, gamma, u, beta).square_interpolation()[0][1]
+#         mean = np.mean(interpolated)
+#         revers_amp.append(mean)
+#     except:
+#         print("hm")
 
-omega = [np.sqrt(i) for i in reso_alpha]
-plt.plot(omega, amp, label = "forward")
-plt.plot(omega[::-1], revers_amp, label = "backward")
-plt.legend(fontsize = 16, loc = "upper right")
-plt.xlabel("$\omega _0$ in ms", fontsize = 30)
-plt.ylabel("A in cm",fontsize = 30)
-plt.show()
+# omega = [np.sqrt(i) for i in reso_alpha]
+# plt.plot(omega, amp, label = "forward")
+# plt.plot(omega[::-1], revers_amp, label = "backward")
+# plt.legend(fontsize = 16, loc = "upper right")
+# plt.xlabel("$\omega _0$ in ms", fontsize = 30)
+# plt.ylabel("A in cm",fontsize = 30)
+# plt.show()
 
 
 # [Phasedifference]_____________________________________________________________________________________________________________________________________________________________________-

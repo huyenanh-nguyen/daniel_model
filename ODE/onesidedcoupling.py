@@ -110,6 +110,24 @@ class OnesidedCoupling:
 
         return sol
     
+    def duffvdpsolver_tolerance(self):
+        """solving coupled ODE f Duffing and VdP 
+
+        Returns:
+           List: index 0 -> x, Index 1 -> y, Index 2 -> p(vdp), Index 3 -> q(duffing)
+        """
+        par = self.par
+        t = self.t
+        k = self.k
+        gamma = self.gamma
+        alpha = self.alpha
+        mu = self.mu
+        beta = self.beta
+
+        sol = odeint(linearduffingvdp, par, t, args = (k, mu, gamma, alpha, beta), rtol= 0.01, atol= 0.00000001)
+
+        return sol
+    
     def x_solv(self):
         sol = self.duffvdpsolver()
         x_solv = sol[:,0]
