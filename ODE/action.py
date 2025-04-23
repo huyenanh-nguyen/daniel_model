@@ -22,7 +22,8 @@ gamma = 0.1
 mu = 2
 beta = 0.2
 alpha = 2
-lilie = OnesidedCoupling(par, t, keep, k, mu, gamma, alpha, beta)
+count = 10
+lilie = OnesidedCoupling(par, t, keep, k, mu, gamma, alpha, beta, count)
 
 xsol = lilie.x_solv()[:keep]
 ysol = lilie.y_solv()[:keep]

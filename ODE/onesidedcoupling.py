@@ -24,9 +24,9 @@ def linearduffingvdp(par : list, t : list, k : float, mu : float, gamma : float,
         t (List): Timespan
         k (float): coupling strenght
         mu (float): non-linear damping constant
-        gamma (_type_): damping constant
-        alpha (_type_): linear restoring force
-        beta (_type_): non linear restoring force
+        gamma (float): damping constant
+        alpha (float): linear restoring force
+        beta (float): non linear restoring force
 
     Returns:
         List: ODEs for 
@@ -64,12 +64,13 @@ class OnesidedCoupling:
         t (List): Timespan
         k (float): coupling strenght
         mu (float): non-linear damping constant
-        gamma (_type_): damping constant
-        alpha (_type_): linear restoring force
-        beta (_type_): non linear restoring force
+        gamma (float): damping constant
+        alpha (float): linear restoring force
+        beta (float): non linear restoring force
+        count (int): how many peaks, amplitude, or whatever will get used to calculate the mean of a specific value
     """
 
-    def __init__(self, par : list, t : list, t_keep : int,  k : float, mu : float, gamma : float, alpha : float, beta : float):
+    def __init__(self, par : list, t : list, t_keep : int,  k : float, mu : float, gamma : float, alpha : float, beta : float, count : int):
         """_summary_
 
         Args:
@@ -78,9 +79,10 @@ class OnesidedCoupling:
             t_keep (int): how many Timepoints to keep
             k (float): coupling strenght
             mu (float): non-linear damping constant
-            gamma (_type_): damping constant
-            alpha (_type_): linear restoring force
-            beta (_type_): non linear restoring force
+            gamma (float): damping constant
+            alpha (float): linear restoring force
+            beta (float): non linear restoring force
+            count (int): how many peaks, amplitude, or whatever will get used to calculate the mean of a specific value
 
         """
         self.par = par
@@ -91,6 +93,7 @@ class OnesidedCoupling:
         self.gamma = gamma
         self.alpha = alpha
         self.beta = beta
+        self.count = count
 
     def duffvdpsolver(self):
         """solving coupled ODE f Duffing and VdP 
@@ -124,7 +127,7 @@ class OnesidedCoupling:
         mu = self.mu
         beta = self.beta
 
-        sol = odeint(linearduffingvdp, par, t, args = (k, mu, gamma, alpha, beta), rtol= 0.01, atol= 0.00000001)
+        sol = odeint(linearduffingvdp, par, t, args = (k, mu, gamma, alpha, beta), rtol= 0.01, atol= 0.0001)
 
         return sol
     
@@ -257,6 +260,30 @@ class OnesidedCoupling:
             x_value_peak.append(x_peak_inbetween)
         
         return y_value_peak, x_value_peak, popt_sol
+    
+
+    def period(self):
+        """
+        calculating the period of the last 6 peaks of the oscillator (avoiding transientenphase)
+
+        Returns:
+            List: index 0 -> x (vdp)
+                  index 1 -> y (duffing)
+                  index 2 -> p (vdp)
+                  index 3 -> q (duffing)
+        """
+        index_peak = [self.find_peaks_max()[i][0] for i in range(len(self.par))]
+        t = self.t
+        count = self.count
+
+        period = []
+
+        for i in range(len(self.par)):
+            peak_t = [t[k] for k in index_peak[i]]
+            period.append(np.mean(np.diff(peak_t)[-count:]))
+
+        return period
+
         
 
 
