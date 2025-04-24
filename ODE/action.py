@@ -9,7 +9,7 @@ from scipy.fft import fft
 from onesidedcoupling import OnesidedCoupling
 
 t_step = 0.05
-t_last = 100 # 50h -> 1 point represent 1h
+t_last = 100 # 50s -> 1 point represent 1s
 t = np.arange(0, 2500, t_step)
 keep = int(t_last / t_step)
 x = 0.5
@@ -23,16 +23,17 @@ mu = 2
 beta = 0.2
 alpha = 2
 count = 10
-lilie = OnesidedCoupling(par, t, keep, k, mu, gamma, alpha, beta, count)
+lilie = OnesidedCoupling(par, t, keep, k, mu, gamma, alpha, beta)
 
-xsol = lilie.x_solv()[:keep]
-ysol = lilie.y_solv()[:keep]
-psol = lilie.p_solv()[:keep]
-qsol = lilie.q_solv()[:keep]
+xsol = lilie.x_solv()
+ysol = lilie.y_solv()
 
-# rtol = 0.01
-xsol_tol = lilie.duffvdpsolver_tolerance()[:keep, 0]
-ysol_tol = lilie.duffvdpsolver_tolerance()[:keep, 1]
+# selbstorganisation in der Zeit Werner Ebeling
+rtol = 0.01
+atol = 0.0000001
+xsol_tol = lilie.duffvdpsolver_tolerance(rtol, atol)[:, 0]
+xxsol_tol = lilie.duffvdpsolver_tolerance(0.1, atol)[:, 0]
+xxxsol_tol = lilie.duffvdpsolver_tolerance(0.000001, atol)[:, 0] #  mit der Schrittweise ist es nahe am perfekten Wert, aber man kann um die 1/100 kürzer machen die Simulation (Für die Arnoldszunge ist es super praktisch die Zeit zu verkürzen)
 
 # [Timeseries]_________________________________________________________________________________________________________________________________
 
@@ -42,15 +43,17 @@ x_amplitude = lilie.find_peaks_max()[0]
 y_amplitude = lilie.find_peaks_max()[1]
 
 # x-timeseries
-plt.plot(np.arange(0, t_last, t_step), xsol, label = f"k: {k:.2f}")
-plt.plot(np.arange(0, t_last, t_step), xsol_tol, label = "rtol= 0.01")
-plt.plot([np.arange(0, t_last, t_step)[i] for i in x_amplitude[0]], x_amplitude[1]['peak_heights'], "x", label = "interpolated")
+plt.plot(t, xsol, label = "rtol= auto")
+plt.plot(t, xsol_tol, label = "rtol= 0.01")
+plt.plot(t, xxsol_tol, label = "rtol= 0.1")
+plt.plot(t, xxxsol_tol, label = "rtol= 0.000001")
+# plt.plot([np.arange(0, t_last, t_step)[i] for i in x_amplitude[0]], x_amplitude[1]['peak_heights'], "x", label = "interpolated")
 # plt.plot([np.arange(0, t_last, t_step)[i] for i in x_amplitude[0]], x_amplitude[1]['peak_heights'], "x", label = "max peak")
 
 plt.ylabel("x in a.u.", fontsize = 20)
 x_title = "$\gamma$ = " + f"{gamma:.2f}, ß = " + f"{beta:.2f}, $\\alpha$ = " + f"{alpha:.2f}, $\mu$ = " + f"{mu:.2f}, x$_0$ = " + f"{par[0]:.2f}, y$_0$ = "+ f"{par[1]:.2f}, p$_0$ = "+ f"{par[2]:.2f}, q$_0$ = "+ f"{par[3]:.2f}"
 plt.legend(fontsize = 16, loc = "upper right")
-plt.xlabel("t in ms", fontsize = 20)
+plt.xlabel("t in s", fontsize = 20)
 
 plt.ylim([-3.5, 3.5])
 # plt.figtext(0.99, 0.01, title,
@@ -65,7 +68,7 @@ plt.plot([np.arange(0, t_last, t_step)[i] for i in y_amplitude[0]], y_amplitude[
 plt.ylabel("y in a.u.", fontsize = 20)
 y_title = "$\gamma$ = " + f"{gamma:.2f}, ß = " + f"{beta:.2f}, $\\alpha$ = " + f"{alpha:.2f}, $\mu$ = " + f"{mu:.2f}, x$_0$ = " + f"{par[0]:.2f}, y$_0$ = "+ f"{par[1]:.2f}, p$_0$ = "+ f"{par[2]:.2f}, q$_0$ = "+ f"{par[3]:.2f}"
 plt.legend(fontsize = 16, loc = "upper left")
-plt.xlabel("t in ms", fontsize = 20)
+plt.xlabel("t in s", fontsize = 20)
 plt.ylim([-3.5, 3.5])
 # plt.figtext(0.99, 0.01, title,
 #         horizontalalignment="right",
@@ -75,39 +78,39 @@ plt.show()
 
 # [Timeseries with interpolations]________________________________________________________________________________________________________________________________________________________________________
 
-tx_plus = lilie.square_interpolation()[1][0]
-ty_plus = lilie.square_interpolation()[1][1]
-xing = lilie.square_interpolation()[0][0]
-ying = lilie.square_interpolation()[0][1]
+# tx_plus = lilie.square_interpolation()[1][0]
+# ty_plus = lilie.square_interpolation()[1][1]
+# xing = lilie.square_interpolation()[0][0]
+# ying = lilie.square_interpolation()[0][1]
 
-# x-timeseries
-plt.plot(np.arange(0, t_last, t_step), xsol, label = f"k: {k:.2f}")
-plt.plot(tx_plus, xing, "x", label = "find_peak")
-plt.ylabel("x in a.u.", fontsize = 20)
-x_title = "$\gamma$ = " + f"{gamma:.2f}, ß = " + f"{beta:.2f}, $\\alpha$ = " + f"{alpha:.2f}, $\mu$ = " + f"{mu:.2f}, x$_0$ = " + f"{par[0]:.2f}, y$_0$ = "+ f"{par[1]:.2f}, p$_0$ = "+ f"{par[2]:.2f}, q$_0$ = "+ f"{par[3]:.2f}"
-plt.legend(fontsize = 16, loc = "upper right")
-plt.xlabel("t in ms", fontsize = 20)
+# # x-timeseries
+# plt.plot(np.arange(0, t_last, t_step), xsol, label = f"k: {k:.2f}")
+# plt.plot(tx_plus, xing, "x", label = "find_peak")
+# plt.ylabel("x in a.u.", fontsize = 20)
+# x_title = "$\gamma$ = " + f"{gamma:.2f}, ß = " + f"{beta:.2f}, $\\alpha$ = " + f"{alpha:.2f}, $\mu$ = " + f"{mu:.2f}, x$_0$ = " + f"{par[0]:.2f}, y$_0$ = "+ f"{par[1]:.2f}, p$_0$ = "+ f"{par[2]:.2f}, q$_0$ = "+ f"{par[3]:.2f}"
+# plt.legend(fontsize = 16, loc = "upper right")
+# plt.xlabel("t in ms", fontsize = 20)
 
-plt.ylim([-3.5, 3.5])
-# plt.figtext(0.99, 0.01, title,
-#         horizontalalignment="right",
-#         fontsize = 16)
-print(x_title)
-plt.show()
+# plt.ylim([-3.5, 3.5])
+# # plt.figtext(0.99, 0.01, title,
+# #         horizontalalignment="right",
+# #         fontsize = 16)
+# print(x_title)
+# plt.show()
 
-# y-timeseries
-plt.plot(np.arange(0, t_last, t_step), ysol, label = f"k: {k:.2f}")
-plt.plot(ty_plus, ying, "x", label = "find_peak")
-plt.ylabel("y in a.u.", fontsize = 20)
-y_title = "$\gamma$ = " + f"{gamma:.2f}, ß = " + f"{beta:.2f}, $\\alpha$ = " + f"{alpha:.2f}, $\mu$ = " + f"{mu:.2f}, x$_0$ = " + f"{par[0]:.2f}, y$_0$ = "+ f"{par[1]:.2f}, p$_0$ = "+ f"{par[2]:.2f}, q$_0$ = "+ f"{par[3]:.2f}"
-plt.legend(fontsize = 16, loc = "upper left")
-plt.xlabel("t in ms", fontsize = 20)
-plt.ylim([-3.5, 3.5])
-# plt.figtext(0.99, 0.01, title,
-#         horizontalalignment="right",
-#         fontsize = 16)
-print(y_title)
-plt.show()
+# # y-timeseries
+# plt.plot(np.arange(0, t_last, t_step), ysol, label = f"k: {k:.2f}")
+# plt.plot(ty_plus, ying, "x", label = "find_peak")
+# plt.ylabel("y in a.u.", fontsize = 20)
+# y_title = "$\gamma$ = " + f"{gamma:.2f}, ß = " + f"{beta:.2f}, $\\alpha$ = " + f"{alpha:.2f}, $\mu$ = " + f"{mu:.2f}, x$_0$ = " + f"{par[0]:.2f}, y$_0$ = "+ f"{par[1]:.2f}, p$_0$ = "+ f"{par[2]:.2f}, q$_0$ = "+ f"{par[3]:.2f}"
+# plt.legend(fontsize = 16, loc = "upper left")
+# plt.xlabel("t in ms", fontsize = 20)
+# plt.ylim([-3.5, 3.5])
+# # plt.figtext(0.99, 0.01, title,
+# #         horizontalalignment="right",
+# #         fontsize = 16)
+# print(y_title)
+# plt.show()
 
 
 # [Phasetime]____________________________________________________________________________________________________________________________________________________________________________________________________________-

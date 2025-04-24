@@ -70,7 +70,7 @@ class OnesidedCoupling:
         count (int): how many peaks, amplitude, or whatever will get used to calculate the mean of a specific value
     """
 
-    def __init__(self, par : list, t : list, t_keep : int,  k : float, mu : float, gamma : float, alpha : float, beta : float, count : int):
+    def __init__(self, par : list, t : list, t_keep : int,  k : float, mu : float, gamma : float, alpha : float, beta : float):
         """_summary_
 
         Args:
@@ -82,7 +82,7 @@ class OnesidedCoupling:
             gamma (float): damping constant
             alpha (float): linear restoring force
             beta (float): non linear restoring force
-            count (int): how many peaks, amplitude, or whatever will get used to calculate the mean of a specific value
+            
 
         """
         self.par = par
@@ -93,7 +93,6 @@ class OnesidedCoupling:
         self.gamma = gamma
         self.alpha = alpha
         self.beta = beta
-        self.count = count
 
     def duffvdpsolver(self):
         """solving coupled ODE f Duffing and VdP 
@@ -113,7 +112,7 @@ class OnesidedCoupling:
 
         return sol
     
-    def duffvdpsolver_tolerance(self):
+    def duffvdpsolver_tolerance(self, rtol, atol):
         """solving coupled ODE f Duffing and VdP 
 
         Returns:
@@ -127,7 +126,8 @@ class OnesidedCoupling:
         mu = self.mu
         beta = self.beta
 
-        sol = odeint(linearduffingvdp, par, t, args = (k, mu, gamma, alpha, beta), rtol= 0.01, atol= 0.0001)
+
+        sol = odeint(linearduffingvdp, par, t, args = (k, mu, gamma, alpha, beta), rtol= rtol, atol= atol)
 
         return sol
     
@@ -262,9 +262,12 @@ class OnesidedCoupling:
         return y_value_peak, x_value_peak, popt_sol
     
 
-    def period(self):
+    def period(self, count):
         """
         calculating the period of the last 6 peaks of the oscillator (avoiding transientenphase)
+
+        Args:
+            count (int): how many peaks, amplitude, or whatever will get used to calculate the mean of a specific value
 
         Returns:
             List: index 0 -> x (vdp)
@@ -273,8 +276,7 @@ class OnesidedCoupling:
                   index 3 -> q (duffing)
         """
         index_peak = [self.find_peaks_max()[i][0] for i in range(len(self.par))]
-        t = self.t
-        count = self.count
+        t = self.t  
 
         period = []
 
