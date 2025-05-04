@@ -167,7 +167,7 @@ class OnesidedCoupling:
         sol = self.duffvdpsolver()
         keep = self.t_keep
 
-        maxima = [np.argmax(sol[:keep, i]) for i in range(len(self.par))]
+        maxima = [np.argmax(sol[-keep:, i]) for i in range(len(self.par))]
         
         return maxima
     
@@ -181,7 +181,7 @@ class OnesidedCoupling:
 
         sol = self.duffvdpsolver()
         keep = self.t_keep
-        maxima = [np.mean(np.argmin(sol[:keep, i])) for i in range(sol.shape[1])]
+        maxima = [np.mean(np.argmin(sol[-keep:, i])) for i in range(sol.shape[1])]
         
         return maxima
     
@@ -211,7 +211,7 @@ class OnesidedCoupling:
 
         peaks = []
         for i in range(len(maxima)):
-            peaks.append(find_peaks(sol[:keep,i], height=(-np.repeat(sol[:keep,i][maxima[i]], keep), np.repeat(sol[:keep,i][maxima[i]], keep))))
+            peaks.append(find_peaks(sol[-keep:, i], height=(-np.repeat(sol[-keep:, i][maxima[i]], keep), np.repeat(sol[-keep:, i][maxima[i]], keep))))
         return peaks
     
     def peak_plusminus(self):
@@ -238,6 +238,7 @@ class OnesidedCoupling:
     
 
     def square_interpolation(self):
+
         t = self.peak_plusminus()[0]
         sol = self.peak_plusminus()[1]
 
@@ -276,7 +277,7 @@ class OnesidedCoupling:
                   index 3 -> q (duffing)
         """
         index_peak = [self.find_peaks_max()[i][0] for i in range(len(self.par))]
-        t = self.t  
+        t = self.t[-self.t_keep:] 
 
         period = []
 
