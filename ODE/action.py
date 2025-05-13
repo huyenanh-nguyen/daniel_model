@@ -17,11 +17,11 @@ y = 1
 q = 0
 p = 1
 par = x,y,p,q
-k = 0.1
+k = 0.01
 gamma = 0.1
-mu = 0.1
+mu = 2.0
 beta = 0.2
-alpha = 0.64
+alpha = 3.8800000000000003
 count = 6
 lilie = OnesidedCoupling(par, t, keep, k, mu, gamma, alpha, beta)
 
@@ -53,6 +53,8 @@ xxxsol_tol = lilie.duffvdpsolver_tolerance(0.000001, atol)[:, 0] #  mit der Schr
 # # plt.plot([np.arange(0, t_last, t_step)[i] for i in x_amplitude[0]], x_amplitude[1]['peak_heights'], "x", label = "max peak")
 
 # plt.ylabel("x in a.u.", fontsize = 20)
+# plt.xticks(fontsize = 20)
+# plt.yticks(fontsize = 20)
 # x_title = "$\gamma$ = " + f"{gamma:.2f}, ß = " + f"{beta:.2f}, $\\alpha$ = " + f"{alpha:.2f}, $\mu$ = " + f"{mu:.2f}, x$_0$ = " + f"{par[0]:.2f}, y$_0$ = "+ f"{par[1]:.2f}, p$_0$ = "+ f"{par[2]:.2f}, q$_0$ = "+ f"{par[3]:.2f}"
 # plt.legend(fontsize = 16, loc = "upper right")
 # plt.xlabel("t in s", fontsize = 20)
@@ -71,6 +73,8 @@ xxxsol_tol = lilie.duffvdpsolver_tolerance(0.000001, atol)[:, 0] #  mit der Schr
 # y_title = "$\gamma$ = " + f"{gamma:.2f}, ß = " + f"{beta:.2f}, $\\alpha$ = " + f"{alpha:.2f}, $\mu$ = " + f"{mu:.2f}, x$_0$ = " + f"{par[0]:.2f}, y$_0$ = "+ f"{par[1]:.2f}, p$_0$ = "+ f"{par[2]:.2f}, q$_0$ = "+ f"{par[3]:.2f}"
 # plt.legend(fontsize = 16, loc = "upper left")
 # plt.xlabel("t in s", fontsize = 20)
+# plt.xticks(fontsize = 20)
+# plt.yticks(fontsize = 20)
 # plt.ylim([-3.5, 3.5])
 # # plt.figtext(0.99, 0.01, title,
 # #         horizontalalignment="right",
@@ -80,41 +84,44 @@ xxxsol_tol = lilie.duffvdpsolver_tolerance(0.000001, atol)[:, 0] #  mit der Schr
 
 # [Timeseries]________________________________________________________________________________________________________________________________________________________________________
 
-xmax = lilie.maximumofplot()[0]
-ymax = lilie.maximumofplot()[1]
-x_amplitude = lilie.find_peaks_max()[0]
-y_amplitude = lilie.find_peaks_max()[1]
+# xmax = lilie.maximumofplot()[0]
+# ymax = lilie.maximumofplot()[1]
+# x_amplitude = lilie.find_peaks_max()[0]
+# y_amplitude = lilie.find_peaks_max()[1]
 
-# x-timeseries
-plt.plot(t[-keep:], xsol[-keep:], label = f"k: {k:.2f}")
-# plt.plot([np.arange(0, t_last, t_step)[i] for i in x_amplitude[0]], x_amplitude[1]['peak_heights'], "x", label = "interpolated")
-# plt.plot([np.arange(0, t_last, t_step)[i] for i in x_amplitude[0]], x_amplitude[1]['peak_heights'], "x", label = "max peak")
+# # x-timeseries
+# plt.plot(t[-keep:], xsol[-keep:], label = f"k: {k:.2f}")
+# # plt.plot([np.arange(0, t_last, t_step)[i] for i in x_amplitude[0]], x_amplitude[1]['peak_heights'], "x", label = "interpolated")
+# # plt.plot([np.arange(0, t_last, t_step)[i] for i in x_amplitude[0]], x_amplitude[1]['peak_heights'], "x", label = "max peak")
 
-plt.ylabel("x in a.u.", fontsize = 20)
-x_title = "$\gamma$ = " + f"{gamma:.2f}, ß = " + f"{beta:.2f}, $\\alpha$ = " + f"{alpha:.2f}, $\mu$ = " + f"{mu:.2f}, x$_0$ = " + f"{par[0]:.2f}, y$_0$ = "+ f"{par[1]:.2f}, p$_0$ = "+ f"{par[2]:.2f}, q$_0$ = "+ f"{par[3]:.2f}"
-plt.legend(fontsize = 16, loc = "upper right")
-plt.xlabel("t in s", fontsize = 20)
+# plt.ylabel("x in a.u.", fontsize = 20)
+# x_title = "$\gamma$ = " + f"{gamma:.2f}, ß = " + f"{beta:.2f}, $\\alpha$ = " + f"{alpha:.2f}, $\mu$ = " + f"{mu:.2f}, x$_0$ = " + f"{par[0]:.2f}, y$_0$ = "+ f"{par[1]:.2f}, p$_0$ = "+ f"{par[2]:.2f}, q$_0$ = "+ f"{par[3]:.2f}"
+# plt.legend(fontsize = 16, loc = "upper right")
+# plt.xlabel("t in s", fontsize = 20)
+# plt.xticks(fontsize = 20)
+# plt.yticks(fontsize = 20)
+# plt.ylim([-3.5, 3.5])
+# # plt.figtext(0.99, 0.01, title,
+# #         horizontalalignment="right",
+# #         fontsize = 16)
+# print(x_title)
+# plt.show()
 
-plt.ylim([-3.5, 3.5])
-# plt.figtext(0.99, 0.01, title,
-#         horizontalalignment="right",
-#         fontsize = 16)
-print(x_title)
-plt.show()
-
-# y-timeseries
-plt.plot(t[-keep:], ysol[-keep:], label = f"k: {k:.2f}")
-# plt.plot([np.arange(0, t_last, t_step)[i] for i in y_amplitude[0]], y_amplitude[1]['peak_heights'], "x", label = "interpolated")
-plt.ylabel("y in a.u.", fontsize = 20)
-y_title = "$\gamma$ = " + f"{gamma:.2f}, ß = " + f"{beta:.2f}, $\\alpha$ = " + f"{alpha:.2f}, $\mu$ = " + f"{mu:.2f}, x$_0$ = " + f"{par[0]:.2f}, y$_0$ = "+ f"{par[1]:.2f}, p$_0$ = "+ f"{par[2]:.2f}, q$_0$ = "+ f"{par[3]:.2f}"
-plt.legend(fontsize = 16, loc = "upper left")
-plt.xlabel("t in s", fontsize = 20)
-plt.ylim([-3.5, 3.5])
-# plt.figtext(0.99, 0.01, title,
-#         horizontalalignment="right",
-#         fontsize = 16)
-print(y_title)
-plt.show()
+# # y-timeseries
+# plt.plot(t[-keep:], ysol[-keep:], label = f"k: {k:.2f}")
+# # plt.plot([np.arange(0, t_last, t_step)[i] for i in y_amplitude[0]], y_amplitude[1]['peak_heights'], "x", label = "interpolated")
+# plt.ylabel("y in a.u.", fontsize = 20)
+# y_title = "$\gamma$ = " + f"{gamma:.2f}, ß = " + f"{beta:.2f}, $\\alpha$ = " + f"{alpha:.2f}, $\mu$ = " + f"{mu:.2f}, x$_0$ = " + f"{par[0]:.2f}, y$_0$ = "+ f"{par[1]:.2f}, p$_0$ = "+ f"{par[2]:.2f}, q$_0$ = "+ f"{par[3]:.2f}"
+# plt.legend(fontsize = 16, loc = "upper left")
+# plt.xlabel("t in s", fontsize = 20)
+# plt.xticks(fontsize = 20)
+# plt.yticks(fontsize = 20)
+# plt.ylim([-0.05, 0.05])
+# # plt.figtext(0.99, 0.01, title,
+# #         horizontalalignment="right",
+# #         fontsize = 16)
+# print(y_title)
+# plt.show()
 
 # [Timeseries with interpolation]__________________________________
 
@@ -135,6 +142,8 @@ plt.show()
 # # plt.figtext(0.99, 0.01, title,
 # #         horizontalalignment="right",
 # #         fontsize = 16)
+# plt.xticks(fontsize = 20)
+# plt.yticks(fontsize = 20)
 # print(x_title)
 # plt.show()
 
@@ -146,6 +155,8 @@ plt.show()
 # plt.legend(fontsize = 16, loc = "upper left")
 # plt.xlabel("t in ms", fontsize = 20)
 # plt.ylim([-3.5, 3.5])
+# plt.xticks(fontsize = 20)
+# plt.yticks(fontsize = 20)
 # # plt.figtext(0.99, 0.01, title,
 # #         horizontalalignment="right",
 # #         fontsize = 16)
@@ -162,6 +173,8 @@ plt.show()
 # # title = "$\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} k = " + f"{k:.2f}"
 # plt.legend(fontsize = 16)
 # plt.title("Phasenportraits X,P")
+# plt.xticks(fontsize = 20)
+# plt.yticks(fontsize = 20)
 # # plt.figtext(0.99, 0.01, title,
 # #         horizontalalignment="right",
 # #         fontsize = 20)
@@ -173,6 +186,8 @@ plt.show()
 # plt.ylabel("q in a.u.",fontsize = 30)
 # # title = "$\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} k = " + f"{k:.2f}"
 # plt.legend(fontsize = 16)
+# plt.xticks(fontsize = 20)
+# plt.yticks(fontsize = 20)
 # plt.title("Phasenportraits Y,Q")
 # # plt.figtext(0.99, 0.01, title,
 # #         horizontalalignment="right",
@@ -181,7 +196,7 @@ plt.show()
 
 # # [Resonance Curve]___________________________________________________________________________________________________________________________________________________________________________________-
 
-# reso_alpha = np.arange(0.2, 4, 0.02)
+# reso_alpha = np.arange(0.2, 10, 0.02) # 3.6, 10, 0.02
 # omega = [np.sqrt(i) for i in reso_alpha]
 # # revers_omega = [i for i in reversed(omega)]
 
@@ -192,9 +207,29 @@ plt.show()
 # # reverse_amp = [np.mean(OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][1]['peak_heights'][-6:]) for i in reversed(reso_alpha)]
 # plt.plot(omega, amp)
 # # plt.plot(revers_omega, reverse_amp)
+# plt.xticks(fontsize = 20)
+# plt.yticks(fontsize = 20)
 # plt.xlabel("$\omega _0$ in Hz", fontsize = 30)
 # plt.ylabel("A in a.u.",fontsize = 30)
 # plt.show()
 
 
 # [Phasedifference]_____________________________________________________________________________________________________________________________________________________________________-
+# y-timeseries
+# plt.plot(t[-keep:], OnesidedCoupling(par, t, keep, k, mu, gamma, 3.86, beta).y_solv()[-keep:], label = "$\\alpha$: 3.86") 
+# plt.plot(t[-keep:], OnesidedCoupling(par, t, keep, k, mu, gamma, 3.8800000000000003, beta).y_solv()[-keep:], label = "$\\alpha$: 3.88")
+# plt.plot(t[-keep:], OnesidedCoupling(par, t, keep, k, mu, gamma, 3.9000000000000004, beta).y_solv()[-keep:], label = "$\\alpha$: 3.90")
+# plt.plot(t[-keep:], OnesidedCoupling(par, t, keep, k, mu, gamma, 3.94, beta).y_solv()[-keep:], label = "$\\alpha$: 3.94")
+# # plt.plot([np.arange(0, t_last, t_step)[i] for i in y_amplitude[0]], y_amplitude[1]['peak_heights'], "x", label = "interpolated")
+# plt.ylabel("y in a.u.", fontsize = 20)
+# y_title = "$\gamma$ = " + f"{gamma:.2f}, ß = " + f"{beta:.2f}, $\\alpha$ = " + f"{alpha:.2f}, $\mu$ = " + f"{mu:.2f}, x$_0$ = " + f"{par[0]:.2f}, y$_0$ = "+ f"{par[1]:.2f}, p$_0$ = "+ f"{par[2]:.2f}, q$_0$ = "+ f"{par[3]:.2f}"
+# plt.legend(fontsize = 16, loc = "upper left")
+# plt.xlabel("t in ms", fontsize = 20)
+# plt.ylim([-0.009, 0.009])
+# plt.xticks(fontsize = 20)
+# plt.yticks(fontsize = 20)
+# # plt.figtext(0.99, 0.01, title,
+# #         horizontalalignment="right",
+# #         fontsize = 16)
+# print(y_title)
+# plt.show()
