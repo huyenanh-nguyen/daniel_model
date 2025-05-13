@@ -19,7 +19,7 @@ p = 1
 par = x,y,p,q
 k = 0.01
 gamma = 0.1
-mu = 2.0
+mu = 2
 beta = 0.2
 alpha = 3.8800000000000003
 count = 6
@@ -196,17 +196,40 @@ xxxsol_tol = lilie.duffvdpsolver_tolerance(0.000001, atol)[:, 0] #  mit der Schr
 
 # # [Resonance Curve]___________________________________________________________________________________________________________________________________________________________________________________-
 
-# reso_alpha = np.arange(0.2, 10, 0.02) # 3.6, 10, 0.02
-# omega = [np.sqrt(i) for i in reso_alpha]
-# # revers_omega = [i for i in reversed(omega)]
+reso_alpha = np.arange(3.6, 4.0, 0.1) # 3.6, 10, 0.02
+omega = [np.sqrt(i) for i in reso_alpha]
+# revers_omega = [i for i in reversed(omega)]
 
 # amp = [np.mean(OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][1]['peak_heights'][-6:]) for i in reso_alpha]
 
+# print(OnesidedCoupling(par, t, keep, k, mu, gamma, 3.9, beta).y_solv()[-keep:][OnesidedCoupling(par, t, keep, k, mu, gamma, 3.9, beta).maximumofplot()[1]])
+# print(OnesidedCoupling(par, t, keep, k, mu, gamma, 3.9, beta).find_peaks_max())
+for i in reso_alpha:
+    plt.plot(t[-keep:], OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).y_solv()[-keep:]) 
+    # print(OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][0][-6:])
+    plt.plot([t[-keep:][u] for u in OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][0][-6:]],OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][1]['peak_heights'][-6:], "x", label = "$\\alpha$: " + str(round(i, 2))) 
+
+plt.ylabel("y in a.u.", fontsize = 20)
+plt.legend(fontsize = 16, loc = "upper left")
+plt.xlabel("t in ms", fontsize = 20)
+plt.xticks(fontsize = 20)
+plt.yticks(fontsize = 20)
+# plt.ylim([-3.5, 3.5])
+plt.show()
+
 # time_amp = [t[k] for k in [OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][0][-10:] for i in reso_alpha]]
 
-# # reverse_amp = [np.mean(OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][1]['peak_heights'][-6:]) for i in reversed(reso_alpha)]
+
+
+# def lorenz(x, omega, gamma):
+#     return 0.02 / np.sqrt((x**2 - omega ** 2)**2 + gamma ** 2 * x ** 2)
+
+
+# # lorenz_sol = [lorenz(i, 1, 0.1) for i in omega]
+
+# # plt.plot(omega, lorenz_sol, label = "Lorentz Curve")
 # plt.plot(omega, amp)
-# # plt.plot(revers_omega, reverse_amp)
+# # plt.legend(fontsize = 20, loc = "upper right")
 # plt.xticks(fontsize = 20)
 # plt.yticks(fontsize = 20)
 # plt.xlabel("$\omega _0$ in Hz", fontsize = 30)
@@ -219,7 +242,7 @@ xxxsol_tol = lilie.duffvdpsolver_tolerance(0.000001, atol)[:, 0] #  mit der Schr
 # plt.plot(t[-keep:], OnesidedCoupling(par, t, keep, k, mu, gamma, 3.86, beta).y_solv()[-keep:], label = "$\\alpha$: 3.86") 
 # plt.plot(t[-keep:], OnesidedCoupling(par, t, keep, k, mu, gamma, 3.8800000000000003, beta).y_solv()[-keep:], label = "$\\alpha$: 3.88")
 # plt.plot(t[-keep:], OnesidedCoupling(par, t, keep, k, mu, gamma, 3.9000000000000004, beta).y_solv()[-keep:], label = "$\\alpha$: 3.90")
-# plt.plot(t[-keep:], OnesidedCoupling(par, t, keep, k, mu, gamma, 3.94, beta).y_solv()[-keep:], label = "$\\alpha$: 3.94")
+# plt.plot(t[-keep:], OnesidedCoupling(par, t, keep, k, mu, gamma, 4, beta).y_solv()[-keep:], label = "$\\alpha$: 3.94")
 # # plt.plot([np.arange(0, t_last, t_step)[i] for i in y_amplitude[0]], y_amplitude[1]['peak_heights'], "x", label = "interpolated")
 # plt.ylabel("y in a.u.", fontsize = 20)
 # y_title = "$\gamma$ = " + f"{gamma:.2f}, ß = " + f"{beta:.2f}, $\\alpha$ = " + f"{alpha:.2f}, $\mu$ = " + f"{mu:.2f}, x$_0$ = " + f"{par[0]:.2f}, y$_0$ = "+ f"{par[1]:.2f}, p$_0$ = "+ f"{par[2]:.2f}, q$_0$ = "+ f"{par[3]:.2f}"

@@ -157,7 +157,7 @@ class OnesidedCoupling:
     
     def maximumofplot(self):
         """
-        return the maximum value of the plot
+        return the indices of the maximum value of the plot
         np.argmax(xsol) for the maxima of the x-solution
 
         Returns:
@@ -173,7 +173,7 @@ class OnesidedCoupling:
     
     def minimumofplot(self):
         """
-        return the mean minimum value of the plot
+        return the indices of the minimum value of the plot
 
         Returns:
            List: index 0 -> x, Index 1 -> y, Index 2 -> p(vdp), Index 3 -> q(duffing)
@@ -208,10 +208,10 @@ class OnesidedCoupling:
         sol = self.duffvdpsolver()
         maxima = self.maximumofplot()
         keep = self.t_keep
-
         peaks = []
         for i in range(len(maxima)):
-            peaks.append(find_peaks(sol[-keep:, i], height=(-np.repeat(sol[-keep:, i][maxima[i]], keep), np.repeat(sol[-keep:, i][maxima[i]], keep))))
+
+            peaks.append(find_peaks(sol[-keep:, i], height=(np.repeat(sol[-keep:, i][maxima[i]], keep)- np.repeat(sol[-keep:, i][maxima[i]]*0.01, keep), np.repeat(sol[-keep:, i][maxima[i]], keep))))
         return peaks
     
     def peak_plusminus(self):
