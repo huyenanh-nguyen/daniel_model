@@ -17,7 +17,7 @@ y = 1
 q = 0
 p = 1
 par = x,y,p,q
-k = 0.01
+k = 0.1
 gamma = 0.1
 mu = 2
 beta = 0.2
@@ -196,26 +196,26 @@ xxxsol_tol = lilie.duffvdpsolver_tolerance(0.000001, atol)[:, 0] #  mit der Schr
 
 # # [Resonance Curve]___________________________________________________________________________________________________________________________________________________________________________________-
 
-reso_alpha = np.arange(3.6, 4.0, 0.1) # 3.6, 10, 0.02
+reso_alpha = np.arange(0.2, 8, 0.01) # 3.6, 10, 0.02
 omega = [np.sqrt(i) for i in reso_alpha]
 # revers_omega = [i for i in reversed(omega)]
 
-# amp = [np.mean(OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][1]['peak_heights'][-6:]) for i in reso_alpha]
+amp = [np.mean(OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][1]['peak_heights'][-6:]) for i in reso_alpha]
 
 # print(OnesidedCoupling(par, t, keep, k, mu, gamma, 3.9, beta).y_solv()[-keep:][OnesidedCoupling(par, t, keep, k, mu, gamma, 3.9, beta).maximumofplot()[1]])
 # print(OnesidedCoupling(par, t, keep, k, mu, gamma, 3.9, beta).find_peaks_max())
-for i in reso_alpha:
-    plt.plot(t[-keep:], OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).y_solv()[-keep:]) 
-    # print(OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][0][-6:])
-    plt.plot([t[-keep:][u] for u in OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][0][-6:]],OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][1]['peak_heights'][-6:], "x", label = "$\\alpha$: " + str(round(i, 2))) 
+# for i in reso_alpha:
+#     plt.plot(t[-keep:], OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).y_solv()[-keep:]) 
+#     # print(OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][0][-6:])
+#     plt.plot([t[-keep:][u] for u in OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][0][-6:]],OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][1]['peak_heights'][-6:], "x", label = "$\\alpha$: " + str(round(i, 2))) 
 
-plt.ylabel("y in a.u.", fontsize = 20)
-plt.legend(fontsize = 16, loc = "upper left")
-plt.xlabel("t in ms", fontsize = 20)
-plt.xticks(fontsize = 20)
-plt.yticks(fontsize = 20)
-# plt.ylim([-3.5, 3.5])
-plt.show()
+# plt.ylabel("y in a.u.", fontsize = 20)
+# plt.legend(fontsize = 16, loc = "upper left")
+# plt.xlabel("t in ms", fontsize = 20)
+# plt.xticks(fontsize = 20)
+# plt.yticks(fontsize = 20)
+# # plt.ylim([-3.5, 3.5])
+# plt.show()
 
 # time_amp = [t[k] for k in [OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][0][-10:] for i in reso_alpha]]
 
@@ -224,16 +224,19 @@ plt.show()
 # def lorenz(x, omega, gamma):
 #     return 0.02 / np.sqrt((x**2 - omega ** 2)**2 + gamma ** 2 * x ** 2)
 
+# reso_mu = np.arange(0.2, 10, 0.1)
+# # # lorenz_sol = [lorenz(i, 1, 0.1) for i in omega]
+# mu_amp = [np.mean(OnesidedCoupling(par, t, keep, k, i, gamma, 0.2, beta).find_peaks_max()[0][1]['peak_heights'][-10:]) for i in reso_mu]
 
-# # lorenz_sol = [lorenz(i, 1, 0.1) for i in omega]
-
-# # plt.plot(omega, lorenz_sol, label = "Lorentz Curve")
-# plt.plot(omega, amp)
+# plt.plot(reso_mu, mu_amp)
+# # # plt.plot(omega, lorenz_sol, label = "Lorentz Curve")
+# # plt.plot(omega, amp)
 # # plt.legend(fontsize = 20, loc = "upper right")
 # plt.xticks(fontsize = 20)
 # plt.yticks(fontsize = 20)
-# plt.xlabel("$\omega _0$ in Hz", fontsize = 30)
-# plt.ylabel("A in a.u.",fontsize = 30)
+# # plt.xlabel("$\omega _0$ in Hz", fontsize = 30)
+# plt.xlabel("$\mu$ in a.u.", fontsize = 30)
+# plt.ylabel("T in ms",fontsize = 30)
 # plt.show()
 
 
@@ -256,3 +259,16 @@ plt.show()
 # #         fontsize = 16)
 # print(y_title)
 # plt.show()
+
+period_vdp = lilie.period(10)[1]
+time_amp_vdp = [t[i] for i in lilie.find_peaks_max()[1][0][-10:]]
+
+time_amp = [t[k] for k in [OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][0][-10:] for i in reso_alpha]]
+phaseamp = [2 * np.pi * (time_amp_vdp[0]-i[0])/period_vdp for i in time_amp]
+
+plt.plot(omega[3:], phaseamp[3:])
+plt.xticks(fontsize = 20)
+plt.yticks(fontsize = 20)
+plt.xlabel("$\omega$", fontsize = 30)
+plt.ylabel("$\\varphi$",fontsize = 30)
+plt.show()
