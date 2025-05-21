@@ -19,7 +19,7 @@ p = 1
 par = x,y,p,q
 k = 0.1
 gamma = 0.1
-mu = 0.2
+mu = 2
 beta = 0.2
 alpha = 0.6300000000000003
 count = 6
@@ -184,36 +184,36 @@ xxxsol_tol = lilie.duffvdpsolver_tolerance(0.000001, atol)[:, 0] #  mit der Schr
 
 # [Phasetime]____________________________________________________________________________________________________________________________________________________________________________________________________________-
 
-# label = f"x$_0$ = {par[0]:.2f} \np$_0$ = {par[2]:.2f}"
-# # plt.plot(xsol[-keep:],psol[-keep:],label = label) # without transient
-# plt.plot(xsol[keep:],psol[keep:],label = label)   # with transient
+label = f"x$_0$ = {par[0]:.2f} \np$_0$ = {par[2]:.2f}"
+# plt.plot(xsol[-keep:],psol[-keep:],label = label) # without transient
+plt.plot(xsol[keep:],psol[keep:],label = label)   # with transient
 
-# plt.xlabel("x in a.u.",fontsize = 30)
-# plt.ylabel("p in a.u.",fontsize = 30)
-# # title = "$\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} k = " + f"{k:.2f}"
-# plt.legend(fontsize = 16)
-# # plt.title("Phasenportraits X,P")
-# plt.xticks(fontsize = 20)
-# plt.yticks(fontsize = 20)
-# # plt.figtext(0.99, 0.01, title,
-# #         horizontalalignment="right",
-# #         fontsize = 20)
-# plt.show()
+plt.xlabel("x in a.u.",fontsize = 30)
+plt.ylabel("p in a.u.",fontsize = 30)
+# title = "$\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} k = " + f"{k:.2f}"
+plt.legend(fontsize = 16)
+# plt.title("Phasenportraits X,P")
+plt.xticks(fontsize = 20)
+plt.yticks(fontsize = 20)
+# plt.figtext(0.99, 0.01, title,
+#         horizontalalignment="right",
+#         fontsize = 20)
+plt.show()
 
-# label = f"y$_0$ = {par[1]:.2f} \nq$_0$ = {par[3]:.2f}"
-# # plt.plot(ysol[-keep:],qsol[-keep:],label = label) # without transient
-# plt.plot(ysol[keep:],qsol[keep:],label = label)   # with transient
-# plt.xlabel("y in a.u.",fontsize = 30)
-# plt.ylabel("q in a.u.",fontsize = 30)
-# # title = "$\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} k = " + f"{k:.2f}"
-# plt.legend(fontsize = 16)
-# plt.xticks(fontsize = 20)
-# plt.yticks(fontsize = 20)
-# # plt.title("Phasenportraits Y,Q")
-# # plt.figtext(0.99, 0.01, title,
-# #         horizontalalignment="right",
-# #         fontsize = 20)
-# plt.show()
+label = f"y$_0$ = {par[1]:.2f} \nq$_0$ = {par[3]:.2f}"
+# plt.plot(ysol[-keep:],qsol[-keep:],label = label) # without transient
+plt.plot(ysol[keep:],qsol[keep:],label = label)   # with transient
+plt.xlabel("y in a.u.",fontsize = 30)
+plt.ylabel("q in a.u.",fontsize = 30)
+# title = "$\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} k = " + f"{k:.2f}"
+plt.legend(fontsize = 16)
+plt.xticks(fontsize = 20)
+plt.yticks(fontsize = 20)
+# plt.title("Phasenportraits Y,Q")
+# plt.figtext(0.99, 0.01, title,
+#         horizontalalignment="right",
+#         fontsize = 20)
+plt.show()
 
 # # [Resonance Curve]___________________________________________________________________________________________________________________________________________________________________________________-
 
