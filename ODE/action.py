@@ -184,85 +184,85 @@ xxxsol_tol = lilie.duffvdpsolver_tolerance(0.000001, atol)[:, 0] #  mit der Schr
 
 # [Phasetime]____________________________________________________________________________________________________________________________________________________________________________________________________________-
 
-label = f"x$_0$ = {par[0]:.2f} \np$_0$ = {par[2]:.2f}"
-# plt.plot(xsol[-keep:],psol[-keep:],label = label) # without transient
-plt.plot(xsol[keep:],psol[keep:],label = label)   # with transient
+# label = f"x$_0$ = {par[0]:.2f} \np$_0$ = {par[2]:.2f}"
+# # plt.plot(xsol[-keep:],psol[-keep:],label = label) # without transient
+# plt.plot(xsol[keep:],psol[keep:],label = label)   # with transient
 
-plt.xlabel("x in a.u.",fontsize = 30)
-plt.ylabel("p in a.u.",fontsize = 30)
-# title = "$\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} k = " + f"{k:.2f}"
-plt.legend(fontsize = 16)
-# plt.title("Phasenportraits X,P")
-plt.xticks(fontsize = 20)
-plt.yticks(fontsize = 20)
-# plt.figtext(0.99, 0.01, title,
-#         horizontalalignment="right",
-#         fontsize = 20)
-plt.show()
+# plt.xlabel("x in a.u.",fontsize = 30)
+# plt.ylabel("p in a.u.",fontsize = 30)
+# # title = "$\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} k = " + f"{k:.2f}"
+# plt.legend(fontsize = 16)
+# # plt.title("Phasenportraits X,P")
+# plt.xticks(fontsize = 20)
+# plt.yticks(fontsize = 20)
+# # plt.figtext(0.99, 0.01, title,
+# #         horizontalalignment="right",
+# #         fontsize = 20)
+# plt.show()
 
-label = f"y$_0$ = {par[1]:.2f} \nq$_0$ = {par[3]:.2f}"
-# plt.plot(ysol[-keep:],qsol[-keep:],label = label) # without transient
-plt.plot(ysol[keep:],qsol[keep:],label = label)   # with transient
-plt.xlabel("y in a.u.",fontsize = 30)
-plt.ylabel("q in a.u.",fontsize = 30)
-# title = "$\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} k = " + f"{k:.2f}"
-plt.legend(fontsize = 16)
-plt.xticks(fontsize = 20)
-plt.yticks(fontsize = 20)
-# plt.title("Phasenportraits Y,Q")
-# plt.figtext(0.99, 0.01, title,
-#         horizontalalignment="right",
-#         fontsize = 20)
-plt.show()
+# label = f"y$_0$ = {par[1]:.2f} \nq$_0$ = {par[3]:.2f}"
+# # plt.plot(ysol[-keep:],qsol[-keep:],label = label) # without transient
+# plt.plot(ysol[keep:],qsol[keep:],label = label)   # with transient
+# plt.xlabel("y in a.u.",fontsize = 30)
+# plt.ylabel("q in a.u.",fontsize = 30)
+# # title = "$\gamma$ = " + f"{gamma:.2f} $\mu$ = " + f"{mu:.2f} ß =" + f"{beta:.2f} alpha = " + f"{alpha:.2f} k = " + f"{k:.2f}"
+# plt.legend(fontsize = 16)
+# plt.xticks(fontsize = 20)
+# plt.yticks(fontsize = 20)
+# # plt.title("Phasenportraits Y,Q")
+# # plt.figtext(0.99, 0.01, title,
+# #         horizontalalignment="right",
+# #         fontsize = 20)
+# plt.show()
 
 # # [Resonance Curve]___________________________________________________________________________________________________________________________________________________________________________________-
 
-# reso_alpha = np.arange(0.2, 8, 0.01) # 3.6, 10, 0.02
-# omega = [np.sqrt(i) for i in reso_alpha]
-# # revers_omega = [i for i in reversed(omega)]
+reso_alpha = np.arange(0.2, 8, 0.01) # 3.6, 10, 0.02
+omega = [np.sqrt(i) for i in reso_alpha]
+## revers_omega = [i for i in reversed(omega)]
 
-# amp = [np.mean(OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][1]['peak_heights'][-6:]) for i in reso_alpha]
+amp = [np.mean(OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][1]['peak_heights'][-6:]) for i in reso_alpha]
 
-# print(OnesidedCoupling(par, t, keep, k, mu, gamma, 3.9, beta).y_solv()[-keep:][OnesidedCoupling(par, t, keep, k, mu, gamma, 3.9, beta).maximumofplot()[1]])
-# print(OnesidedCoupling(par, t, keep, k, mu, gamma, 3.9, beta).find_peaks_max())
-# for i in reso_alpha:
-#     plt.plot(t[-keep:], OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).y_solv()[-keep:]) 
-#     # print(OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][0][-6:])
-#     plt.plot([t[-keep:][u] for u in OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][0][-6:]],OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][1]['peak_heights'][-6:], "x", label = "$\\alpha$: " + str(round(i, 2))) 
+# # print(OnesidedCoupling(par, t, keep, k, mu, gamma, 3.9, beta).y_solv()[-keep:][OnesidedCoupling(par, t, keep, k, mu, gamma, 3.9, beta).maximumofplot()[1]])
+# # print(OnesidedCoupling(par, t, keep, k, mu, gamma, 3.9, beta).find_peaks_max())
+# # for i in reso_alpha:
+# #     plt.plot(t[-keep:], OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).y_solv()[-keep:]) 
+# #     # print(OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][0][-6:])
+# #     plt.plot([t[-keep:][u] for u in OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][0][-6:]],OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][1]['peak_heights'][-6:], "x", label = "$\\alpha$: " + str(round(i, 2))) 
 
-# plt.ylabel("y in a.u.", fontsize = 20)
-# plt.legend(fontsize = 16, loc = "upper left")
-# plt.xlabel("t in ms", fontsize = 20)
-# plt.xticks(fontsize = 20)
-# plt.yticks(fontsize = 20)
-# # plt.ylim([-3.5, 3.5])
-# plt.show()
+# # plt.ylabel("y in a.u.", fontsize = 20)
+# # plt.legend(fontsize = 16, loc = "upper left")
+# # plt.xlabel("t in ms", fontsize = 20)
+# # plt.xticks(fontsize = 20)
+# # plt.yticks(fontsize = 20)
+# # # plt.ylim([-3.5, 3.5])
+# # plt.show()
 
 # time_amp = [t[k] for k in [OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][0][-10:] for i in reso_alpha]]
 
 
 
-# def lorenz(x, omega, gamma):
-#     return 0.02 / np.sqrt((x**2 - omega ** 2)**2 + gamma ** 2 * x ** 2)
+## def lorenz(x, omega, gamma):
+##     return 0.02 / np.sqrt((x**2 - omega ** 2)**2 + gamma ** 2 * x ** 2)
 
-# reso_mu = np.arange(0.2, 10, 0.1)
+## reso_mu = np.arange(0.2, 10, 0.1)
 # # # lorenz_sol = [lorenz(i, 1, 0.1) for i in omega]
-# mu_amp = [np.mean(OnesidedCoupling(par, t, keep, k, i, gamma, 0.2, beta).find_peaks_max()[0][1]['peak_heights'][-10:]) for i in reso_mu]
+## mu_amp = [np.mean(OnesidedCoupling(par, t, keep, k, i, gamma, 0.2, beta).find_peaks_max()[0][1]['peak_heights'][-10:]) for i in reso_mu]
 
-# plt.plot(reso_mu, mu_amp)
-# # # plt.plot(omega, lorenz_sol, label = "Lorentz Curve")
-# plt.plot(omega, amp)
+# # plt.plot(reso_mu, mu_amp)
+# # # # plt.plot(omega, lorenz_sol, label = "Lorentz Curve")
+plt.plot(omega, amp)
 # # # plt.legend(fontsize = 20, loc = "upper right")
-# plt.xticks(fontsize = 20)
-# plt.yticks(fontsize = 20)
-# plt.xlabel("$\omega _0$ in Hz", fontsize = 30)
+plt.xticks(fontsize = 20)
+plt.yticks(fontsize = 20)
+plt.xlabel("$\omega _0$ in Hz", fontsize = 30)
 # # plt.xlabel("$\mu$ in a.u.", fontsize = 30)
-# plt.ylabel("A in a.u.",fontsize = 30)
-# plt.show()
+plt.ylabel("A in a.u.",fontsize = 30)
+plt.show()
 
 
 # [Phasedifference]_____________________________________________________________________________________________________________________________________________________________________-
-# y-timeseries
+# # y-timeseries
 # plt.plot(t[-keep:], OnesidedCoupling(par, t, keep, k, mu, gamma, 3.86, beta).y_solv()[-keep:], label = "$\\alpha$: 3.86") 
 # plt.plot(t[-keep:], OnesidedCoupling(par, t, keep, k, mu, gamma, 3.8800000000000003, beta).y_solv()[-keep:], label = "$\\alpha$: 3.88")
 # plt.plot(t[-keep:], OnesidedCoupling(par, t, keep, k, mu, gamma, 3.9000000000000004, beta).y_solv()[-keep:], label = "$\\alpha$: 3.90")
@@ -281,18 +281,18 @@ plt.show()
 # print(y_title)
 # plt.show()
 
-# period_vdp = lilie.period(10)[1]
-# time_amp_vdp = [t[i] for i in lilie.find_peaks_max()[1][0][-10:]]
+period_vdp = lilie.period(10)[1]
+time_amp_vdp = [t[i] for i in lilie.find_peaks_max()[1][0][-10:]]
 
-# time_amp = [t[k] for k in [OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][0][-10:] for i in reso_alpha]]
-# phaseamp = [2 * np.pi * (time_amp_vdp[0]-i[0])/period_vdp for i in time_amp]
+time_amp = [t[k] for k in [OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][0][-10:] for i in reso_alpha]]
+phaseamp = [2 * np.pi * (time_amp_vdp[0]-i[0])/period_vdp for i in time_amp]
 
-# plt.plot(omega[3:], phaseamp[3:])
-# plt.xticks(fontsize = 20)
-# plt.yticks(fontsize = 20)
-# plt.xlabel("$\omega$", fontsize = 30)
-# plt.ylabel("$\\varphi$",fontsize = 30)
-# plt.show()
+plt.plot(omega[3:], phaseamp[3:])
+plt.xticks(fontsize = 20)
+plt.yticks(fontsize = 20)
+plt.xlabel("$\omega$", fontsize = 30)
+plt.ylabel("$\\varphi$",fontsize = 30)
+plt.show()
 
 
 
