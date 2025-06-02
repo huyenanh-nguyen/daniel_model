@@ -1,3 +1,3 @@
 from .onesidedcoupling import OnesidedCoupling
 
-from .parlitz import Parlitz
+from ..studienprojekt.parlitz import Parlitz
