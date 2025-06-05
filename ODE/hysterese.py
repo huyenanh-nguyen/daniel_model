@@ -7,6 +7,7 @@ from scipy.signal import find_peaks
 from scipy.fft import fft
 import math
 from pathlib import Path
+from matplotlib.colors import ListedColormap
 
 from onesidedcoupling import OnesidedCoupling
 
@@ -59,8 +60,8 @@ def compute_amplitude(par, t, keep, k, mu, gamma, alpha, beta):
 
 # [Basin of Attractors]______________________________________________________________________________________________________
 
-alph = np.linspace(0.05,0.2, 10)
-
+alph = [0.05, 0.1, 0.15, 0.2]
+cmap = ListedColormap(["#283D3B", "#F8D794"])
 for i in range(len(alph)):
     x_par = np.arange(-2,2,0.1)
     y_par = np.arange(-2,2,0.1)
@@ -92,13 +93,13 @@ for i in range(len(alph)):
     print(sol)
     print(y_amplitude_matrix)
     
-    plt.imshow(attractor, extent=[-2,2,-2,2])
+    plt.imshow(attractor, extent=[-2,2,-2,2], cmap = cmap)
     plt.xlabel("y in a.u.",fontsize = 30)
     plt.ylabel("q in a.u.",fontsize = 30)
-    plt.xticks(fontsize = 16)
+    plt.xticks(fontsize = 14)
     plt.title(label = "$\\alpha$ = " + f"{alph[i]:.4f}" + ", $\\omega$ = " + f"{np.sqrt(alph[i]):.4f}", fontsize = 20)
     # plt.colorbar(ticks = [0,1], value = [0,1])s
-    plt.yticks(fontsize = 16)
+    plt.yticks(fontsize = 14)
     
-    plt.savefig("Basin_" + f"{i}" + ".png", dpi =  300, bbox_inches = "tight")
+    plt.savefig("Basin_detailed" + f"{i}" + ".png", dpi =  300, bbox_inches = "tight")
             
