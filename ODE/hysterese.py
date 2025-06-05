@@ -8,6 +8,8 @@ from scipy.fft import fft
 import math
 from pathlib import Path
 from matplotlib.colors import ListedColormap
+import matplotlib.patches as mpatches
+
 
 from onesidedcoupling import OnesidedCoupling
 
@@ -61,7 +63,10 @@ def compute_amplitude(par, t, keep, k, mu, gamma, alpha, beta):
 # [Basin of Attractors]______________________________________________________________________________________________________
 
 alph = [0.05, 0.1, 0.15, 0.2]
-cmap = ListedColormap(["#283D3B", "#F8D794"])
+
+colours = ["#283D3B", "#F8D794"]
+
+cmap = ListedColormap(colours)
 for i in range(len(alph)):
     x_par = np.arange(-2,2,0.1)
     y_par = np.arange(-2,2,0.1)
@@ -96,10 +101,13 @@ for i in range(len(alph)):
     plt.imshow(attractor, extent=[-2,2,-2,2], cmap = cmap)
     plt.xlabel("y in a.u.",fontsize = 30)
     plt.ylabel("q in a.u.",fontsize = 30)
-    plt.xticks(fontsize = 14)
     plt.title(label = "$\\alpha$ = " + f"{alph[i]:.4f}" + ", $\\omega$ = " + f"{np.sqrt(alph[i]):.4f}", fontsize = 20)
-    # plt.colorbar(ticks = [0,1], value = [0,1])s
-    plt.yticks(fontsize = 14)
+    plt.xticks(np.linspace(-2,2, 5), fontsize = 20)
+    plt.yticks(np.linspace(-2,2, 5),fontsize = 20)
+    
+    labels = [f"A = {attractor.min():.2f}", f"A = {attractor.max():.2f}"]
+    patches = [mpatches.Patch(color=colours[i], label=labels[i]) for i in range(len(colours))]
+    plt.legend(handles=patches, loc='upper right', fontsize = 16)
     
     plt.savefig("Basin_detailed" + f"{i}" + ".png", dpi =  300, bbox_inches = "tight")
             
