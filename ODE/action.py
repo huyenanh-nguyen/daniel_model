@@ -281,7 +281,7 @@ plt.show()
 # print(y_title)
 # plt.show()
 
-period_vdp = lilie.period(10)[1]
+period_vdp = lilie.period(10)[0]
 time_amp_vdp = [t[i] for i in lilie.find_peaks_max()[1][0][-10:]]
 
 time_amp = [t[k] for k in [OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][0][-10:] for i in reso_alpha]]
