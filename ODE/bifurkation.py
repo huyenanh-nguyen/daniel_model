@@ -16,10 +16,10 @@ t_step = 0.01
 t_last = 100 # 50h -> 1 point represent 1h
 t = np.arange(0, 4000, t_step)
 keep = int(t_last / t_step)
-k = np.arange(0,30, 0.1)
+k = np.arange(0,1, 0.01)
 gamma = 0.1
-mu = 4
-beta = 0.5
+mu = 0.2
+beta = 0.2
 alpha = 0.1
 T = OnesidedCoupling((1,1,1,1), t, keep, 1, mu, gamma, alpha, beta).period(10)[1]
 
