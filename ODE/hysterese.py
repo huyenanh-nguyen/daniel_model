@@ -76,9 +76,9 @@ colours = ["#283D3B", "#F8D794"]
 cmap = ListedColormap(colours)
 for i in range(len(alph)):
     x_par = 1
-    y_par = np.arange(-3,3,0.1)
+    y_par = np.arange(-2,-0.5,0.05)
     p_par = 1
-    q_par = np.arange(-3,3, 0.1)
+    q_par = np.arange(-2,-0.5, 0.05)
   
 
     y,p = np.meshgrid(y_par,q_par)
@@ -95,12 +95,12 @@ for i in range(len(alph)):
     # print(sol)
     print(y_amplitude_matrix)
     
-    plt.imshow(y_amplitude_matrix, extent=[-3,3,-3,3], cmap = cmap)
+    plt.imshow(y_amplitude_matrix, extent=[-2,-0.5,-2,-0.5], cmap = cmap)
     plt.xlabel("y in a.u.",fontsize = 25)
     plt.ylabel("q in a.u.",fontsize = 25)
     plt.title(label = "$\\alpha$ = " + f"{alph[i]:.4f}" + ", $\\omega$ = " + f"{np.sqrt(alph[i]):.4f}", fontsize = 20)
-    plt.xticks(np.linspace(-3,3, 7), fontsize = 18)
-    plt.yticks(np.linspace(-3,3, 7),fontsize = 18)
+    plt.xticks(np.linspace(-2,-0.5, 5), fontsize = 18)
+    plt.yticks(np.linspace(-2,-0.5, 5),fontsize = 18)
     
     labels = ["$\overline{A}_{10}$ =" + f"{np.nanmin(y_amplitude_matrix):.2f}", "$\overline{A}_{10}$ =" + f"{np.nanmax(y_amplitude_matrix):.2f}"]
     patches = [mpatches.Patch(color=colours[i], label=labels[i]) for i in range(len(colours))]
