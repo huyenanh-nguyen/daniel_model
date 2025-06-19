@@ -15,7 +15,7 @@ from onesidedcoupling import OnesidedCoupling
 
 t_step = 0.01
 t_last = 100 # 50h -> 1 point represent 1h
-t = np.arange(0, 4000, t_step)
+t = np.arange(0, 1000, t_step)
 keep = int(t_last / t_step)
 k = 0.1
 gamma = 0.2
@@ -75,13 +75,13 @@ colours = ["#283D3B", "#F8D794"]
 
 cmap = ListedColormap(colours)
 for i in range(len(alph)):
-    x_par = 1
-    y_par = np.arange(-2,-0.5,0.05)
-    p_par = 1
-    q_par = np.arange(-2,-0.5, 0.05)
+    x_par = 2
+    y_par = np.arange(-5,5,0.1)
+    p_par = -2
+    q_par = np.arange(-5,5, 0.1)
   
 
-    y,p = np.meshgrid(y_par,q_par)
+    q,y = np.meshgrid(q_par,y_par)
     attractor = np.zeros_like(y)
     y_amplitude_matrix = np.zeros_like(y)
 
@@ -95,16 +95,16 @@ for i in range(len(alph)):
     # print(sol)
     print(y_amplitude_matrix)
     
-    plt.imshow(y_amplitude_matrix, extent=[-2,-0.5,-2,-0.5], cmap = cmap)
+    plt.imshow(y_amplitude_matrix, extent=[-5,5,-5,5], cmap = cmap, origin='lower')
     plt.xlabel("y in a.u.",fontsize = 25)
     plt.ylabel("q in a.u.",fontsize = 25)
     plt.title(label = "$\\alpha$ = " + f"{alph[i]:.4f}" + ", $\\omega$ = " + f"{np.sqrt(alph[i]):.4f}", fontsize = 20)
-    plt.xticks(np.linspace(-2,-0.5, 5), fontsize = 18)
-    plt.yticks(np.linspace(-2,-0.5, 5),fontsize = 18)
+    plt.xticks( np.linspace(-5,5, 5), fontsize = 18)
+    plt.yticks(np.linspace(-5,5, 5),fontsize = 18)
     
     labels = ["$\overline{A}_{10}$ =" + f"{np.nanmin(y_amplitude_matrix):.2f}", "$\overline{A}_{10}$ =" + f"{np.nanmax(y_amplitude_matrix):.2f}"]
     patches = [mpatches.Patch(color=colours[i], label=labels[i]) for i in range(len(colours))]
     plt.legend(handles=patches, loc='upper right', fontsize = 14)
     
-    plt.savefig("Basin_detailed" + str(i) + ".png", dpi =  300, bbox_inches = "tight")
+    plt.savefig("Basin_detailed_F" + ".png", dpi =  300, bbox_inches = "tight")
             

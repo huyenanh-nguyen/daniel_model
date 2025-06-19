@@ -16,37 +16,35 @@ t_step = 0.01
 t_last = 100 # 50h -> 1 point represent 1h
 t = np.arange(0, 4000, t_step)
 keep = int(t_last / t_step)
-k_up = np.arange(0,1, 0.01)
+k_up = np.arange(0.05,0.25, 0.005)
 k_down = k_up[::-1]
 gamma = 0.2
 mu = 2
 beta = 0.5
-alpha = 0.1
+alpha = np.arange(0.01,0.5, 0.05)
 
 def compute_amplitude(par, t, keep, k, mu, gamma, alpha, beta):
     amp = OnesidedCoupling(par, t, keep, k, mu, gamma, alpha, beta).find_peaks_max()[1][1]['peak_heights'][-10:]
-    # if math.isnan(amp):
-    #     return 0
-    
-    # else:
     return amp
 
-par0 = 1,1,1,1
+
+
+par0 = 1,1.4,1.4,1
 amplitudes_up = []
 amplitudes_down = []
 
 for f in k_up:
-    sol = OnesidedCoupling(par0, t, keep, f, mu, gamma, alpha, beta).duffvdpsolver()
+    sol = OnesidedCoupling(par0, t, keep, f, mu, gamma, alpha[h], beta).duffvdpsolver()
     par0 = sol[-1]
-    amplitudes_up.append(compute_amplitude(par0, t, keep, f, mu, gamma, alpha, beta))
+    amplitudes_up.append(compute_amplitude(par0, t, keep, f, mu, gamma,alpha[h], beta))
 
 
 par0 = sol[-1]
 
 for j in k_down:
-    sol = OnesidedCoupling(par0, t, keep, j, mu, gamma, alpha, beta).duffvdpsolver()
+    sol = OnesidedCoupling(par0, t, keep, j, mu, gamma, alpha[h], beta).duffvdpsolver()
     par0 = sol[-1]  
-    amplitudes_down.append(compute_amplitude(par0, t, keep, j, mu, gamma, alpha, beta))
+    amplitudes_down.append(compute_amplitude(par0, t, keep, j, mu, gamma, alpha[h], beta))
 
 for e,k in enumerate(k_up):
     try:
@@ -60,10 +58,14 @@ for j,w in enumerate(k_down):
     except:
         None
 
+
+
 plt.xlabel("k", fontsize = 20)
 plt.ylabel("A$_{y}$ in a.u.", fontsize = 20)
-plt.xticks(fontsize = 18)
+plt.xticks(np.linspace(0.05,0.25, 5), fontsize = 18)
+# plt.title(label = "$\\alpha$ = " + f"{alpha[h]:.4f}" + ", $\\omega$ = " + f"{np.sqrt(alpha[h]):.4f}", fontsize = 20)
+
 plt.yticks(fontsize = 18)
-plt.savefig("Bifurcation" + ".png", dpi =  300, bbox_inches = "tight")
-plt.show()
+plt.savefig("Bifurcation" +  ".png", dpi =  300, bbox_inches = "tight")
+#plt.show()
 

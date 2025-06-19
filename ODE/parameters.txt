@@ -1,0 +1,12 @@
+t_step = 0.01
+t_last = 100 # 50h -> 1 point represent 1h
+t = np.arange(0, 4000, t_step)
+keep = int(t_last / t_step)
+k_up = np.arange(0.05,0.25, 0.005)
+k_down = k_up[::-1]
+gamma = 2
+mu = 2
+beta = 0.5
+alpha = np.arange(0.01, 0.5, 0.05)
+
+par0 = 1,1.4,1.4,1
