@@ -188,7 +188,7 @@ class OnesidedCoupling:
     
     def find_peaks_max(self):
         """
-        returning for all parameters the Index of the Peaks and the height where the peaks are.
+        For all parameters, return the indices of the peaks that range from the maxima down to 1% below the maxima, along with their corresponding heights.
 
 
         Returns:
@@ -316,6 +316,33 @@ class OnesidedCoupling:
             peaks.append(find_peaks(sol[-keep:, i], height=(-np.repeat(sol[-keep:, i][maxima[i]], keep), np.repeat(sol[-keep:, i][maxima[i]], keep))))
         return peaks
 
+    def peak(self):
+        """
+        For all parameters, return the indices of the peaks that range from the maxima down to 10% below the maxima, along with their corresponding heights.
+
+
+        Returns:
+            List: A list of the Parameters and within the list it returns the peak_index and the properties. Is there an X given, 
+            there will be a dict with the key "peak_heights", and that is what we need for the amplitudes.\n
+            So when i want to get the peak height of the x_plot or y_plot then i have to type:
+            peaks[0][1]['peak_heights'] 
+            0 -> x
+            1 -> y
+            2 -> p
+            3 -> q
+
+            second index is for accessing the peak height (aka amplitude).
+
+            peak[i][0] will return the Index where the peaks are
+        """
+        sol = self.duffvdpsolver()
+        maxima = self.maximumofplot()
+        keep = self.t_keep
+        peaks = []
+        for i in range(len(maxima)):
+
+            peaks.append(find_peaks(sol[-keep:, i], height=(np.repeat(sol[-keep:, i][maxima[i]], keep)- np.repeat(sol[-keep:, i][maxima[i]]*0.1, keep), np.repeat(sol[-keep:, i][maxima[i]], keep))))
+        return peaks
 
     
 
