@@ -12,16 +12,16 @@ t_step = 0.01
 t_last = 100 # 50h -> 1 point represent 1h
 t = np.arange(0, 5000, t_step)
 keep = int(t_last / t_step)
-x = 0.5
+x = 1
 y = 1
-q = 0
+q = 1
 p = 1
 par = x,y,p,q
 k = 0.1
 gamma = 0.1
 mu = 2
-beta = 0.2
-alpha = 0.6300000000000003
+beta = 0.5
+alpha = 0.2
 count = 6
 lilie = OnesidedCoupling(par, t, keep, k, mu, gamma, alpha, beta)
 
@@ -31,11 +31,10 @@ psol = lilie.p_solv()
 qsol = lilie.q_solv()
 
 # selbstorganisation in der Zeit Werner Ebeling
-rtol = 0.01
 atol = 0.0000001
-xsol_tol = lilie.duffvdpsolver_tolerance(rtol, atol)[:, 0]
-xxsol_tol = lilie.duffvdpsolver_tolerance(0.1, atol)[:, 0]
-xxxsol_tol = lilie.duffvdpsolver_tolerance(0.000001, atol)[:, 0] #  mit der Schrittweise ist es nahe am perfekten Wert, aber man kann um die 1/100 kürzer machen die Simulation (Für die Arnoldszunge ist es super praktisch die Zeit zu verkürzen)
+xsol_tol = lilie.duffvdpsolver_tolerance(0.01, atol)[:, 0]
+xxsol_tol = lilie.duffvdpsolver_tolerance(0.001, atol)[:, 0]
+xxxsol_tol = lilie.duffvdpsolver_tolerance(0.00001, atol)[:, 0] #  mit der Schrittweise ist es nahe am perfekten Wert, aber man kann um die 1/100 kürzer machen die Simulation (Für die Arnoldszunge ist es super praktisch die Zeit zu verkürzen)
 
 # [Timeseries with different rtols]_________________________________________________________________________________________________________________________________
 
@@ -44,27 +43,26 @@ xxxsol_tol = lilie.duffvdpsolver_tolerance(0.000001, atol)[:, 0] #  mit der Schr
 # x_amplitude = lilie.find_peaks_max()[0]
 # y_amplitude = lilie.find_peaks_max()[1]
 
-# # x-timeseries
-# plt.plot(t, xsol, label = "rtol= auto")
-# plt.plot(t, xsol_tol, label = "rtol= 0.01")
-# plt.plot(t, xxsol_tol, label = "rtol= 0.1")
-# plt.plot(t, xxxsol_tol, label = "rtol= 0.000001")
-# # plt.plot([np.arange(0, t_last, t_step)[i] for i in x_amplitude[0]], x_amplitude[1]['peak_heights'], "x", label = "interpolated")
-# # plt.plot([np.arange(0, t_last, t_step)[i] for i in x_amplitude[0]], x_amplitude[1]['peak_heights'], "x", label = "max peak")
+# x-timeseries
+plt.plot(t, xsol, label = "rtol= auto")
+plt.plot(t, xsol_tol, label = "rtol= 0.01")
+plt.plot(t, xxsol_tol, label = "rtol= 0.001")
+plt.plot(t, xxxsol_tol, label = "rtol= 0.00001")
+# plt.plot([np.arange(0, t_last, t_step)[i] for i in x_amplitude[0]], x_amplitude[1]['peak_heights'], "x", label = "interpolated")
+# plt.plot([np.arange(0, t_last, t_step)[i] for i in x_amplitude[0]], x_amplitude[1]['peak_heights'], "x", label = "max peak")
 
-# plt.ylabel("x in a.u.", fontsize = 20)
-# plt.xticks(fontsize = 20)
-# plt.yticks(fontsize = 20)
+plt.ylabel("x in a.u.", fontsize = 20)
+plt.xticks(fontsize = 20)
+plt.yticks(fontsize = 20)
 # x_title = "$\gamma$ = " + f"{gamma:.2f}, ß = " + f"{beta:.2f}, $\\alpha$ = " + f"{alpha:.2f}, $\mu$ = " + f"{mu:.2f}, x$_0$ = " + f"{par[0]:.2f}, y$_0$ = "+ f"{par[1]:.2f}, p$_0$ = "+ f"{par[2]:.2f}, q$_0$ = "+ f"{par[3]:.2f}"
-# plt.legend(fontsize = 16, loc = "upper right")
-# plt.xlabel("t in s", fontsize = 20)
+plt.legend(fontsize = 16, loc = "upper right")
+plt.xlabel("t in s", fontsize = 20)
 
-# plt.ylim([-3.5, 3.5])
-# # plt.figtext(0.99, 0.01, title,
-# #         horizontalalignment="right",
-# #         fontsize = 16)
-# print(x_title)
-# plt.show()
+plt.ylim([-3.5, 3.5])
+# plt.figtext(0.99, 0.01, title,
+#         horizontalalignment="right",
+#         fontsize = 16)
+plt.show()
 
 # # y-timeseries
 # plt.plot(np.arange(0, t_last, t_step), ysol, label = f"k: {k:.2f}")
@@ -251,14 +249,14 @@ amp = [np.mean(OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_
 
 # # plt.plot(reso_mu, mu_amp)
 # # # # plt.plot(omega, lorenz_sol, label = "Lorentz Curve")
-plt.plot(omega, amp)
-# # # plt.legend(fontsize = 20, loc = "upper right")
-plt.xticks(fontsize = 20)
-plt.yticks(fontsize = 20)
-plt.xlabel("$\omega _0$ in Hz", fontsize = 30)
-# # plt.xlabel("$\mu$ in a.u.", fontsize = 30)
-plt.ylabel("A in a.u.",fontsize = 30)
-plt.show()
+# plt.plot(omega, amp)
+# # # # plt.legend(fontsize = 20, loc = "upper right")
+# plt.xticks(fontsize = 20)
+# plt.yticks(fontsize = 20)
+# plt.xlabel("$\omega _0$ in Hz", fontsize = 30)
+# # # plt.xlabel("$\mu$ in a.u.", fontsize = 30)
+# plt.ylabel("A in a.u.",fontsize = 30)
+# plt.show()
 
 
 # [Phasedifference]_____________________________________________________________________________________________________________________________________________________________________-
@@ -281,18 +279,18 @@ plt.show()
 # print(y_title)
 # plt.show()
 
-period_vdp = lilie.period(10)[0]
-time_amp_vdp = [t[i] for i in lilie.find_peaks_max()[1][0][-10:]]
+# period_vdp = lilie.period(10)[0]
+# time_amp_vdp = [t[i] for i in lilie.find_peaks_max()[1][0][-10:]]
 
-time_amp = [t[k] for k in [OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][0][-10:] for i in reso_alpha]]
-phaseamp = [2 * np.pi * (time_amp_vdp[0]-i[0])/period_vdp for i in time_amp]
+# time_amp = [t[k] for k in [OnesidedCoupling(par, t, keep, k, mu, gamma, i, beta).find_peaks_max()[1][0][-10:] for i in reso_alpha]]
+# phaseamp = [2 * np.pi * (time_amp_vdp[0]-i[0])/period_vdp for i in time_amp]
 
-plt.plot(omega[3:], phaseamp[3:])
-plt.xticks(fontsize = 20)
-plt.yticks(fontsize = 20)
-plt.xlabel("$\omega$", fontsize = 30)
-plt.ylabel("$\\varphi$",fontsize = 30)
-plt.show()
+# plt.plot(omega[3:], phaseamp[3:])
+# plt.xticks(fontsize = 20)
+# plt.yticks(fontsize = 20)
+# plt.xlabel("$\omega$", fontsize = 30)
+# plt.ylabel("$\\varphi$",fontsize = 30)
+# plt.show()
 
 
 

@@ -16,11 +16,12 @@ t_step = 0.01
 t_last = 100 # 50h -> 1 point represent 1h
 t = np.arange(0, 500, t_step)
 keep = int(t_last / t_step)
-k_up = np.arange(0.05,0.25, 0.005)
+k_up = np.arange(0.05,0.25, 0.001)
 k_down = k_up[::-1]
 gamma = 0.2
 mu = 2
 beta = 0.5
+
 alpha = np.arange(0.01,0.5, 0.01)
 
 def compute_amplitude(par, t, keep, k, mu, gamma, alpha, beta):
@@ -54,7 +55,7 @@ for l in range(len(alpha)):
         for m in range(len(k_up)):
             sol = OnesidedCoupling(par0, t, keep, k_up[m], mu, gamma, alpha[l], beta).duffvdpsolver()
             par0 = sol[-1]
-            amp = approx(compute_amplitude(par0, t, keep, k_up[m], mu, gamma, alpha[l], beta), 0.2)
+            amp = approx(compute_amplitude(par0, t, keep, k_up[m], mu, gamma, alpha[l], beta), 0.1)
             if math.isnan(amp) == True:
                 index.append([l,m])
             up[l,m] = amp
@@ -64,6 +65,7 @@ plt.imshow(up, extent=[min(k_up),max(k_up),min(alpha),max(alpha)], cmap = "virid
 plt.xlabel("k in a.u.",fontsize = 25)
 plt.ylabel("$\\omega$ in Hz",fontsize = 25)
 plt.gca().xaxis.set_major_formatter(FormatStrFormatter('%.2f'))
+plt.gca().yaxis.set_major_formatter(FormatStrFormatter('%.3f'))
 plt.xticks( np.linspace(round(min(k_up),2),round(max(k_up),2), 3), fontsize = 18)
 plt.yticks(np.linspace(min(alpha),max(alpha), 5),fontsize = 18)
 plt.colorbar()
@@ -76,7 +78,7 @@ plt.colorbar()
 #         c = up[j,i]
 #         plt.text(i, j, str(c), va='center', ha='center')
 
-plt.savefig("parameterrectangle_up" + ".png", dpi =  300, bbox_inches = "tight")
+plt.savefig("parameterrectangle_up_biggerintervals" + ".png", dpi =  300, bbox_inches = "tight")
 
 print(index)   
 

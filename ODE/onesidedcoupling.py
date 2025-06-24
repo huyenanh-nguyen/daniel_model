@@ -108,7 +108,7 @@ class OnesidedCoupling:
         mu = self.mu
         beta = self.beta
 
-        sol = odeint(linearduffingvdp, par, t, args = (k, mu, gamma, alpha, beta), rtol= 0.000001)
+        sol = odeint(linearduffingvdp, par, t, args = (k, mu, gamma, alpha, beta), rtol= 0.00001)
 
         return sol
     
